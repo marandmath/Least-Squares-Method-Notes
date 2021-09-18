@@ -1,0 +1,16 @@
+\nobreakspace {}\hfill \textbf {Σελίδα}\par 
+\contentsline {subsection}{\numberline {0.1}{Κριτήριο του Sylvester για Θετικά Ορισμένους Πίνακες }}{4}{subsection.0.1}%
+\contentsline {subsection}{\numberline {0.2}{Εσσιανή πινακόσυνάρτηση βαθμωτών συναρτήσεων }}{5}{subsection.0.2}%
+\contentsline {subsection}{\numberline {0.3}{Τύπος πολυωνύμου Taylor τάξης 2, από το Θεώρημα Taylor: }}{5}{subsection.0.3}%
+\contentsline {subsection}{\numberline {0.4}{Θετικά Ορισμένοι Πίνακες / Positive-Definite matrices }}{6}{subsection.0.4}%
+\contentsline {subsection}{\numberline {0.5}Παραδείγματα πάνω στην Διακριτή Εκδοχή της Μεθόδου Ελαχίστων Τετραγώνων}{8}{subsection.0.5}%
+\contentsline {subsubsection}{\numberline {0.5.1}Παράδειγμα 1: Έστω τα δεδομένα \((1, 2.5), \ (3, 3.5), \ (5, 6.35) \text { και } (7, 8.1), \ (n=3)\). Tα απεικονίζουμε με τον πιο κάτω κώδικα:}{8}{subsubsection.0.5.1}%
+\contentsline {subsubsection}{\numberline {0.5.2}Παράδειγμα 2: Τετραγωνικές και κυβικές προσεγγίσεις της Μεθόδου Ελαχίστων Τετραγώνων}{15}{subsubsection.0.5.2}%
+\contentsline {subsubsection}{\numberline {0.5.3}Παράδειγμα 3: Κυβική προσέγγιση ελαχίστων τετραγώνων επί των δεδομένων \((1, 2.5), \ (3, 3.5), \ (5, 6.35) \text { και } (7, 8.1), \ (n=3)\)}{16}{subsubsection.0.5.3}%
+\contentsline {subsection}{\numberline {0.6}Προσαρμογή δεδομένων με μη-πολυωνυμικές συναρτήσεις - Eκθετικές Προσεγγίσεις}{20}{subsection.0.6}%
+\contentsline {subsection}{\numberline {0.7}Προσαρμογή δεδομένων με μη-πολυωνυμικές συναρτήσεις - Κλασματικές Προσεγγίσεις}{24}{subsection.0.7}%
+\contentsline {subsection}{\numberline {0.8}Παράδειγμα 4: Εφαρμογή όλων των εκδοχών και παραλλαγών που είδαμε της Μεθόδου ελαχίστων τετραγώνων σε ένα πρακτικό πρόβλημα.}{28}{subsection.0.8}%
+\contentsline {subsection}{\numberline {0.9}Μικρή συνοπτική ανασκόπιση της Συνεχούς Εκδοχής της Μεθόδου Ελαχίστων Τετραγώνων}{35}{subsection.0.9}%
+\contentsline {subsection}{\numberline {0.10}Eλαχιστοποίηση Ελάχιστων Τετραγώνων με χρήση Απειροστικού Λογισμού}{37}{subsection.0.10}%
+\contentsline {subsubsection}{\numberline {0.10.1}Παράδειγμα εφαρμογής: Εφαρμόζουμε την μεθοδολογία μας στην \(f(x)=\qopname \relax o{sin}{x}\) επί του διαστήματος \([0,\TextOrMath {\textpi }{\mathpi }/2]\)}{38}{subsubsection.0.10.1}%
+\contentsline {subsection}{\numberline {0.11}Γενίκευση της Συνεχής Μεθόδου Ελάχιστων Τετραγώνων για \(m \in \PazoBB {N}\)}{40}{subsection.0.11}%

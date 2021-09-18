@@ -1,0 +1,2195 @@
+\documentclass[12pt]{article}
+    \usepackage{cmap} % fix search and cut-and-paste in Acrobat Reader
+    \usepackage[LGR,T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{textalpha}
+    \usepackage{alphabeta}
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    \usepackage{tcolorbox}
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+	\usepackage{natbib}
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Method LSQ-Copy1}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+\title{Διακριτή και Συνεχής Μέθοδος των Ελαχίστων Τετραγώνων\\
+\large Σύντομη θεωρία της μεθόδου και εφαρμογή της μέσω της \(MATLAB\) και του NumPy module της Python}
+\author{Marios Andreou\\University of Cyprus - UCY\\Dept. of Mathematics and Statistics}
+\date{August 2020}
+    
+
+\begin{document}
+
+\renewcommand\contentsname{Περιεχόμενα}
+\tableofcontents   
+\addtocontents{toc}{~\hfill\textbf{Σελίδα}\par}
+   
+\maketitle
+
+Η προσέγγιση συναρτήσεων με ένα πολυώνυμο ειναί στενά συνδεδεμένη με την
+\emph{πολυωνιμική παρεμβολή}; για παράδειγμα είχαμε δει την πολυωνυμική
+παρεμβολή κατα Lagrange (που δίνει το πολυώνυμο παρεμβολής σε μορφή
+Lagrange η σε μορφή Newton) από την οποία προκύπτει οτι το πολυώνυμο
+(\textbf{σε μορφή Lagrange}): \[
+p_n(x) = \sum^{n}_{i=0} \,l_i(x)y_i \nonumber
+\]
+
+ειναι το \textbf{μοναδικό} πολυώνυμο στο \(\mathbb{R}_n[x]\) το οποίο
+επαληθεύει το σύνολο δεδομένων:
+\(\{(x_0,y_0),(x_1,y_1),\dots,(x_{n},y_{n})\}\) δηλαδή για
+\(i=0, \, 1, \dots, \, n\) έχουμε ότι:
+
+\[
+p_n(x_i)=y_i \tag{1} \label{eq:1}
+\]
+
+Αυτό γιατί οι συντελεστές \(l_i(x) \, , \forall i\) ονομάζονται οι
+\textbf{συντελεστές παρεμβολής} και ορίζονται απο την σχέση:
+
+\[
+l_i(x)=\prod_{\substack{j=0 \\ j \neq i}}^n \frac{x-x_j}{x_i-x_j} \, \, , i = 0, 1, \dots, n \tag{2} \label{eq:2}
+\]
+
+Είναι φανερό τότε από την \eqref{eq:2} ότι όταν \(x=x_i\) έχουμε ότι
+\(l_i(x_i)=1\) λόγω της απαλοιφής του αριθμητή και του παρανόμαστή και
+έτσι προκύπτει η \eqref{eq:1}
+
+Σε αυτό όμως το άρθρο θα επικεντρωθούμε στην \emph{Μέθοδο των ελαχίστων
+τετραγώνων (\textbf{Method of least squares - LSQ Method})} όπου αποτελεί μέθοδος
+\emph{προσεγγισης / παλινδρόμησης (regression)} μιας συνάρτησης; δηλαδή
+που προσεγγίζουμε την συνάρτηση με ένα πολυώνυμο κάποιου βαθμού, από το
+οποίο όμως δεν ζητάμε να επαληθεύει το σύνολο των δεδομένων
+ακριβώς. Αυτό μας επιτρέπει να αποφύγουμε κάποιες δυσκολίες που
+παρουσιάζονταν στην μέθοδο της πολυωνυμικής παρεμβολής, όπως τον όγκο
+των πράξεων που πρέπει να γίνουν για εύρεση αυτού του πολυωνύμου (αν και
+στην μορφή Newton αυτές απλοποιούνται δραματικά) ή τα προβλήματα που
+παρουσιάζονται όταν υπαρχεί noise στα δεδομένα μας, όπως λάθη και
+αποκλίσεις κατά την δειγματοληψία ενός τυχαίου δείγματος για παράδειγμα.
+Και εδώ είναι που προκύπτει η χρήση της μεθόδου ελαχίστων τετραγώνων
+όπου είναι η πιο συχνή μέθοδος για δημιουργία της \textbf{``best-fit''}
+προσέγγισης επι του συνόλου δεδομένων.
+
+Στην ουσία προσπαθούμε να ελαχιστοποιήσουμε το άθροισμα των τετραγώνων
+των διαφορών μεταξύ των τεταγμένων των σημείων που θέλουμε να
+προσεγγίσουμε και της τιμής της προσεγγιστικής αυτής πολυωνυμικής
+συνάρτησης στην αντίστοιχη \(x\)-συντεταγμένη των σημείων. Αυτό λόγω του
+ότι η Ευκλείδια απόσταση μεταξύ δύο σημείων \((x_1,y_1) \, , (x_2,y_2)\)
+στο \(\mathbb{R}^2\) (επικεντρωνόμαστε στην προσέγγιση συναρτήσεων
+\emph{μίας πραγματικής μεταβλητής} όπου έχουν γράφημα στο
+\(\mathbb{R}^2\)) δίνεται από τον τύπο:
+
+\[
+d=\sqrt{(x_1-x_2)^2+(y_1-y_2)^2} \tag{3} \label{eq:3}
+\]
+
+Τώρα εάν έχουμε το σύνολο δεδομέων
+\(\{(x_0,y_0),(x_1,y_1),\dots,(x_{n},y_{n})\}\) και έστω
+\(g(x) = a_mx^m+a_{m-1}x^{m-1}+\dots+a_1x+a_0\) το προσεγγιστικό αυτό
+πολυώνυμο βαθμού m (όπου προφανώς \(m\leq n-1\) καθώς εάν \(m=n\) τότε
+πέρνουμε το πολυώνυμο παρεμβολής) τότε η μέθοδος των ελαχίστων
+τετραγώνων ουσιαστικά επιδιώκει την ελαχιστοποιήση όπως είπαμε του
+αθροίσματος, γνωστό και ως \textbf{συνάρτηση σφάλματος (error
+function)}:
+
+\[
+A=\sum_{i=0}^{n} (g(x_i)-y_i)^2 \tag{4} \label{eq:4} 
+\]
+
+H \eqref{eq:4} προκύπτει απο το γεγονός ότι θέλουμε να ελαχιστοποιήσουμε
+την απόσταση μεταξύ των σημείων \((x_i,g(x_i))\) και \((x_i,y_i)\); έστω
+αυτή η \(d_i\), για \(\forall \, i=0 \,, 1 \,, \dots, \, n\). Aπό την
+\eqref{eq:3} η απόσταση αυτή θα δίνεται από τον τύπο:
+
+\[
+d_i=|g(x_i)-y_i| \tag{5} \label{eq:5}
+\]
+
+Αξιοσημείωτη παρατήρηση σε αυτό το σημείο ειναι το γεγονός ότι στην
+\eqref{eq:4} προσπαθούμε να ελαχιστοποιήσουμε το τετράγωνο των διαφορών
+όμως η \eqref{eq:5} μας παραπέμπει στην ελαχιστοποιήση του αθροίσματος
+των \emph{απολύτων τιμών} των \(y\)-συντεταγμένων. Αυτό γιατί υπάρχουν
+σημαντικά προτερήματα με το να χρησιμοποιήσουμε το τετράγωνο των
+διαφορών σε κάθε σημείο αντι την απόλυτη τιμή της διαφοράς (ή
+οποιοδήποτε άλλο μέγεθος που υπολογίζει το σφάλμα(error) μεταξύ της
+προσέγγισης και του συνόλου των δεδομένων). Αυτά είναι:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Θετικές διαφορές \emph{δέν} αναιρούν τις αρνητικές και το αντίθετο
+  (κάτι που δεν βλέπουμε στην απόλυτη τιμή των διαφορών αλλα σε κάποιο
+  άλλο μέγεθος που υπολογίζει το σφάλμα μεταξύ της προσέγγισης και του
+  συνόλου των δεδομένων)
+\item
+  Η παραγώγιση είναι εύκολη (θα δούμε ότι θα χρειαστεί να υπολογίσουμε
+  τις μερικές παραγώγους της \eqref{eq:4} ως προς του συντελεστές του
+  πολυωνύμου \(g(x)\)); και τέλος
+\item
+  Μικρές διαφορές γινονταί μικρότερες και μεγάλες όλο και μεγαλύτερες
+  λόγω του τετραγωνισμού
+\end{enumerate}
+
+Πίσω στην \eqref{eq:4} τώρα και στην εύρεση μιας συστηματικής μεθόδου
+που θα μας επιτρέπει τον προσδιορισμό των συντελεστών του πολυωνύμου
+\(g(x)\). Παρατηρούμε ότι αυτή ειναι στην πραγματικότητα συνάρτηση
+\(m+1\) αγνώστων, καθώς η \(g(x)\) είναι η άγνωστη - ζητούσα συνάρτηση,
+όπου οι μεταβλητές είναι οι συντελεστές του \(g(x)\). Δηλαδή:
+\(A \, = A(a_0, \, a_1,\dots, \, a_m)\).
+
+Για την ελαχιστοποίηση της \(A(a_0, \, a_1,\dots, \, a_m)\) θα
+χρησιμοποιήσουμε ένα σημαντικό αποτέλεσμα του Διαφορικού Λογισμού;
+
+Τα \emph{``κρίσιμα σημεία''} μιας συνάρτησης πολλαπλών μεταβλητών, είναι
+τα σημεία στα οποία μηδενίζεται η κλίση / gradient της συνάρτησης, σε
+αυτή την περίπτωση ειναι το σύνολο των σημείων
+\((\alpha_0, \, \alpha_1,\dots, \, \alpha_m)\) όπου
+\(\nabla A(\alpha_0, \, \alpha_1,\dots, \, \alpha_m) = \vec{0}\). Τότε
+χρησιμοποιώντας το \textbf{``Κριτήριο του Sylvester''} μπορούμε να
+προσδιορίσουμε την φύση του κρίσημου αυτού σημείου στο
+\(\mathbb{R}^{m+1}\) (χωρίς κάποιο περιορισμό, ψάχνουμε για του
+συντελεστές του \(g(x)\) σε \emph{όλο} το \(\mathbb{R}^{m+1}\)), δηλαδή
+εαν είναι \emph{τοπικό μέγιστο} ή \emph{τοπικό ελάχιστο}. Εμείς
+προσπαθούμε για την εύρεση των τοπικών \textbf{ελαχίστων}.
+
+    
+
+    \hypertarget{kux3c1ux3b9ux3c4ux3aeux3c1ux3b9ux3bf-ux3c4ux3bfux3c5-sylvester-ux3b3ux3b9ux3b1-ux3b8ux3b5ux3c4ux3b9ux3baux3ac-ux3bfux3c1ux3b9ux3c3ux3bcux3adux3bdux3bfux3c5ux3c2-ux3c0ux3afux3bdux3b1ux3baux3b5ux3c2}{%
+\subsection{\texorpdfstring{{Κριτήριο του Sylvester για Θετικά
+Ορισμένους Πίνακες
+}}{Kριτήριο του Sylvester για Θετικά Ορισμένους Πίνακες }}}
+
+Έστω ο πίνακας
+\(H := (h_{ij})_{i,j=1, \dots, \, n} \in \mathbb{R}^{n \times n}\)
+\emph{συμμετρικός}. Για \(\forall i=1, \, 2, \dots, \, n\) συμβολίζουμε
+με \(\Delta_i\) την \textbf{ορίζουσα} του \(i \times i\) τετραγωνικού
+υποπίνακα \(M_i\) όπου:
+
+\[
+M_i := (h_{kl})_{k,l=1, \dots, \, i} , \forall i=1, \, 2, \dots, \, n \nonumber
+\]
+
+Δηλαδή \(\Delta_i = \det (M_i)\) όπου ο πίνακας \(M_i\) δημιουργείται
+πέρνωντας των \(i \times i\) τετραγωνικό υποπίνακα με πρώτο στοιχειο
+πάντα το \(h_{11}\) από την \emph{άνω-αριστερά} γωνία του πίνακα \(H\).
+O πίνακας \(M_i\) ονομάζεται ο \emph{\textbf{κύριος ελάσσων (principal
+minor)} πίνακας τάξης \(i\)}, υποπίνακας του H.
+
+Τότε με βάση το \textbf{Κριτήριο του Sylvester} έχουμε ότι:
+
+\begin{tcolorbox}
+\[
+\text{O Η είναι θετικά ορισμένος} \Leftrightarrow \Delta_i>0 \, \, , \forall \, i=1 \,, 2 \,, \dots, \, n \nonumber             \]
+\end{tcolorbox}
+    
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Tώρα θα χρειαστεί να ορίσουμε την \textbf{Εσσιανή} μιας συνάρτησης καθώς
+και το \textbf{πολυώνυμο Taylor τάξης 2} μέσω του Θεωρήματος του Taylor
+για συναρτήσεις πολλαπλών μεταβλητών ώστε να καταλήξουμε με μια
+μεθοδολογία για προσδιορισμό των Τοπικών Ελαχίστων μια συνάρτησης
+πολλαπλών μεταβλητών και έτσι να κατανοήσουμε πραγματικά την Μέθοδο
+Ελαχίστων Τετραγώνων.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+    
+\subsection{\texorpdfstring{{Εσσιανή πινακόσυνάρτηση βαθμωτών συναρτήσεων
+}}{Εσσιανή πινακόσυνάρτηση βαθμωτών συναρτήσεων}}
+H {\textbf{Εσσιανή}} μιας βαθμωτής συνάρτησης;
+\(f(x_1, \, x_2, \dots, \, x_n): \mathbb{R}^n \longrightarrow \mathbb{R}\)
+συνάρτησης ορίζεται να είναι ο πίνακας μερικών παραγώγων
+\begin{tcolorbox}
+\begin{equation*}
+[Hf](\vec{x}) = \begin{pmatrix}
+\frac{\partial^2f}{\partial x_1 \partial x_1}(\vec{x}) & \frac{\partial^2f}{\partial x_1 \partial x_2}(\vec{x}) & \cdots & \frac{\partial^2f}{\partial x_1 \partial x_n}(\vec{x}) \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial^2f}{\partial x_n \partial x_1}(\vec{x}) & \frac{\partial^2f}{\partial x_n \partial x_2}(\vec{x}) & \cdots & \frac{\partial^2f}{\partial x_n \partial x_n}(\vec{x}) \\
+\end{pmatrix}
+\end{equation*}
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Eάν τώρα η βαθμωτή συνάρτηση \(f\) είναι αρκετά ομαλή στο (ανοικτό)
+  πεδίο ορισμού της, στην ακρίβεια;
+  \(f \in \mathcal{C}^2(\mathcal{D}_f)\) τότε από το \textbf{Θεώρημα
+  Ισότητας Μεικτών Παραγώγων};
+  \(\frac{\partial^2f}{\partial x_i \partial x_j} = \frac{\partial^2f}{\partial x_j \partial x_i} \, , \, \forall i, \, j \in \{1, \, 2, \dots, \, n\}\)
+  έχουμε ότι η Εσσιανή της \(f\) είναι \textbf{συμμετρικός} πίνακας.
+  Δηλαδή:
+\end{itemize}
+
+\[
+[Hf](\vec{x}) = [Hf](\vec{x})^T \, , \, \forall \vec{x}\in\mathcal{D}_f \tag{0.2.1} \label{eq:6}
+\]
+
+    
+\subsection{\texorpdfstring{{Τύπος πολυωνύμου Taylor τάξης 2, από το Θεώρημα Taylor:
+}}{Τύπος πολυωνύμου Taylor τάξης 2, από το Θεώρημα Taylor}}
+
+Εάν η \(f: A\subseteq\mathbb{R}^n \longrightarrow \mathbb{R}\) είναι $\mathcal{C}^3$ στο $Α$ τότε για $\forall \vec{x_o} \in A$ εάν $\vec{x} = \vec{x_o} + \vec{h}, \ \vec{h} = (h_1, \cdots , \ h_n)$:
+
+\begin{tcolorbox}
+\begin{align*} 
+f(\vec{x_o}+\vec{h})=f(\vec{x}) &= f(\vec{x_o}) + \sum_{i=1}^n \frac{\partial f}{\partial x_i}(\vec{x_o})h_i + \frac{1}{2} \sum_{i, j=1}^n \frac{\partial^2f}{\partial x_i \partial x_j}h_ih_j+\mathcal{R}_2(\vec{x}, \ \vec{x_o}) \ , \forall \vec{x}\in A \\
+                                &\equiv f(\vec{x_o}) + \nabla f(\vec{x_o}) \cdot \vec{h} + \langle \vec{h} \cdot [Hf](\vec{x}), \ \vec{h} \rangle +\mathcal{R}_2(\vec{x}, \ \vec{x_o}) \ , \forall \vec{x}\in A \tag{0.3.1} \label{eq:7} \\
+\end{align*} 
+\end{tcolorbox}
+
+όπου:
+
+\[
+\lim_{\vec{h}\to\vec{0}}\dfrac{|\mathcal{R}(\vec{x_o}+\vec{h},\vec{x_o})|}{\begin{Vmatrix} \vec{h} \end{Vmatrix}^2}=0 \nonumber
+\]
+
+Ονομάζουμε το
+\(\mathcal{T}(\vec{x_o}+\vec{h},\vec{h}) = f(\vec{x_o}) + \sum_{i=1}^n \frac{\partial f}{\partial x_i}(\vec{x_o})h_i + \frac{1}{2} \sum_{i, j=1}^n \frac{\partial^2f}{\partial x_i \partial x_j}h_ih_j\)
+\textbf{το πολυώνυμο Taylor τάξης 2 με κέντρο το \(\vec{x_o} \in A\)}
+και αποτελεί την \emph{καλύτερη πολυωνυμικη προσέγγιση της \(f\) στο
+\(\vec{x_o} \in A\)}
+
+Και εδώ είναι που καταλήγουμε στο \textbf{Κριτήριο της Εσσιανής} που
+είναι το πολυ-μεταβλητό ανάλογο του Κριτηρίου της 2ης παραγώγου που
+έχουμε στον Απειροστικό Λογισμό μίας μεταβλητής. Πρώτα μια διευκρύνηση
+πάνω στους \emph{Θετικά ορισμένους πίνακες} / \textbf{Positive-Definite
+matrices}, που είδαμε στο Κριτήριο του Sylvester.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}    
+
+\subsection{\texorpdfstring{{Θετικά Ορισμένοι Πίνακες / Positive-Definite matrices
+}}{Θετικά Ορισμένοι Πίνακες / Positive-Definite matrices}} 
+
+Ένας συμμετρικός, πραγματικός πίνακας \(H \in \mathbb{R}^{n \times n}\)
+ονομάζεται \textbf{θετικά ορισμένος (positive-definite)} αν.ν.:
+
+\[
+\vec{x}^TH\vec{x} > 0, \  \forall \vec{x} \in \mathbb{R}^n \smallsetminus \{\vec{0}\} \tag{0.4.1} \label{eq:8}
+\]
+
+    
+
+    Θα χρησιμοποιήσουμε τώρα τον τύπο του Taylor τάξης 2 \eqref{eq:7}.
+Χ.Β.Γ., έστω ότι \(\vec{x_o}\) είναι κρίσημο σημείο της βαθμωτής
+συνάρτησης \(f\) και ότι αυτή είναι \(\mathcal{C}^3\) στο
+\(\mathcal{D}_f\). Άρα έχουμε ότι \(\nabla f(\vec{x_o})=\vec{0}\).
+Οπότε, \(\forall \vec{x} \in \mathcal{D}_f\) και \(||\vec{h}||\)
+\textbf{μικρό}:
+
+\begin{align}
+f(\vec{x_o}+\vec{h})-f(\vec{x_o}) &= f(\vec{x})-f(\vec{x_o}) \nonumber \\ \nonumber
+&= \mathcal{T}(\vec{x_o}+\vec{h}, \ \vec{x_o})+\mathcal{R}(\vec{x_o}+\vec{h}, \ \vec{x_o})-f(\vec{x_o}) && \because \eqref{eq:7} \\ \nonumber
+&= \frac{1}{2}\langle \vec{h} \cdot [Hf](\vec{x}), \ \vec{h} \rangle + \mathcal{R}(\vec{x_o}+\vec{h}, \ \vec{x_o}) && \because \nabla f(\vec{x_o})=\vec{0} 
+\end{align}
+
+Άρα από το Θεώρημα του Taylor, \eqref{eq:7}, καθώς
+\(\lim_{\vec{h}\to\vec{0}}\dfrac{|\mathcal{R}(\vec{x_o}+\vec{h},\vec{x_o})|}{\begin{Vmatrix} \vec{h} \end{Vmatrix}^2}=0\)
+και άρα \(\vec{h} \neq \vec{0}\), εξ' ορισμού ορίου, τότε για
+\(\vec{h}\) σε μια \(\epsilon\)-γειτονία του \(\vec{0}\), δηλαδή
+\(\vec{h} \to \vec{0} \Leftrightarrow ||\vec{h}|| \to 0\) τότε έχουμε
+ότι το μέγεθος
+\(\langle \vec{h} \cdot [Hf](\vec{x}), \ \vec{h} \rangle\)
+\textbf{υπερισχυει κατα πολύ} του (\emph{θετικού}) μεγέθους
+\(\mathcal{R}(\vec{x_o}+\vec{h}, \ \vec{x_o})\) και άρα έχουμε ότι, εάν
+ο πίνακας \([Hf](\vec{x})\) είναι \textbf{θετικά οριμένος} τότε εξ'
+ορισμού:
+
+\begin{align*}
+\vec{h} \cdot [Hf](\vec{x}) \cdot \vec{h}^T &\equiv \langle \vec{h} \cdot [Hf](\vec{x}), \ \vec{h} \rangle > 0, \ \vec{h} \neq \vec{0}  & \because \text{Η εσσιανή είναι θετικά ορισμένη} \\  &\Rightarrow f(\vec{x_o}+\vec{h})-f(\vec{x_o})>0 \\
+&\Rightarrow f(\vec{x_o}+\vec{h})>f(\vec{x_o}) \\
+&\Rightarrow \vec{x_o} \ \text{είναι ΤΟΠΙΚΟ ΕΛΑΧΙΣΤΟ} \\
+\end{align*}
+
+    Όποτε έχοντας το πιο πάνω Κριτήριο της Εσσιανής για τοπικά ακρότατα,
+τότε μπορούμε να ορίσουμε την πιο κάτω μεθολογία για εύρεση των τοπικών
+\textbf{ελαχιστων} (αναλόγως αναπτύσεται μέθοδος και για τα τοπικά
+μέγιστα) και κατ' επέκταση, μέθοδο εύρεσης της προσεγγιστικής συνάρτησης
+της Μεθοδου των Ελαχίστων Τετραγώνων.
+
+    
+
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Ορίζουμε την συνάρτηση:
+  \(A(a_0, \, a_1,\dots, \, a_m)=\sum_{i=1}^{n+1} (g(x_i)-y_i)^2\)
+  (\(\because \eqref{eq:4}\)) όπου \(a_i\) είναι οι συντελεστές του
+  ζητούμενου πολυωνύμου; \(g(x)\) βαθμού \(m\leq n-1\) που θέλουμε να
+  \textbf{προσεγγίζει} το σύνολο σημείων:
+  \(\{(x_0,y_0),(x_1,y_1),\dots,(x_{n},y_{n})\}\)
+\item
+  Βρίσκουμε τις μερικές παραγώγους
+  \(\frac{\partial A}{\partial a_i}, \ \forall i=0, \ 1, \dots, \ m\)
+  και επιλύουμε το σύστημα (\(m+1\))-εξισώσεων:
+
+\[
+  \begin{cases}
+   \frac{\partial A}{\partial a_0}=0 \\
+   \vdots \\
+   \frac{\partial A}{\partial a_m} =0
+   \end{cases}
+  \nonumber \tag{Σ} \label{eq:9}
+\]
+\item
+  Bρίσκουμε την \textbf{εσσιανή} της συνάρτησης \(A(a_0, \, a_1,\dots, \, 
+  a_m)\), \([HA](\vec{x})\) και την υπολογίζουμε σε κάθε στοιχείου του 
+  συνόλου \(\mathcal{S}\). Δηλαδή υπολογίζουμε τους πίνακες: \([HA]
+  (\vec{s_1}), \ \dots \ , \  [HA](\vec{s_l})\). { Προφανώς καθώς το 
+  \eqref{eq:9} είναι ΤΕΤΡΑΓΩΝΙΚΟ ΓΡΑΜΜΙΚΟ σύστημα (ως προς τους συντελεστές 
+  του πολυωνύμου \(g(x)\)) τότε η Εσσιανή της συνάρτησης \(A\) ΕΙΝΑΙ ΠΑΝΤΑ Ο 
+  ΜΗΔΕΝΙΚΌΣ ΠΊΝΑΚΑΣ. } Οπότε καθώς υπάρχει τουλάχιστον ένας κύριος ελάσσων 
+  πίνακας με μηδενική ορίζουσα τότε, το κριτήριο της Εσσιανής / του 
+  Sylvester δεν μπορει να χρησιμοποιηθεί!
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+({ \textbf{EAN Η ΕΣΣΙΑΝΗ ΔΕΝ ΗΤΑΝ Ο ΜΗΔΕΝΙΚΟΣ ΠΙΝΑΚΑΣ:}}
+
+{* Mε το Κριτήριο του Sylvester βρίσκουμε τους πίνακες αυτούς οι οποιοί
+είναι θετικά ορισμένοι. Έστω, Χ.Β.Γ., ότι αυτόι είναι οι
+\([HA](\vec{\sigma_1}), \ \dots \ , \  [HA](\vec{\sigma_r})\) όπου
+\(\{ \vec{\sigma_1}, \dots, \ \vec{\sigma_r} \} \subseteq \mathcal{S} = \{s_1, \dots, \ s_l\}\).
+Tότε με βάση το Κριτήριο της Εσσιανης το σύνολο
+\(\{ \vec{\sigma_1}, \dots, \ \vec{\sigma_r} \}\) περιέχει τα σημεία στα
+οπόια η \(A(a_0, \, a_1,\dots, \, a_m)\) παρουσιάζει τοπικό ελάχιστο.}
+
+{* Υπολογίζουμε τις παραστάσεις
+\(A(\vec{\sigma_1}), \dots, \ A(\vec{\sigma_l})\). Εάν
+\(\vec{\mu} = \min \{ A(\vec{\sigma_1}), \dots, \ A(\vec{\sigma_l}) \}\)
+τότε η τιμή \(Α(\vec{\mu})\) είναι το \textbf{ΑΠΟΛΥΤΟ} ελάχιστο της
+συνάρτησης \(A\).) }
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Όμως η ελάχιστη τιμή του αθροίσματος των τετραγώνων προκύπτει
+θέτοντας την κλίση της συνάρτησης του σφάλματος ίση με το \(0\). Αυτό
+γίνεται εύκολα φανερό (αν και με καποιές πραξείς) στην περίπτωση της
+γραμμικής προσαρμογής Ελαχίστων Τετραγώνων, δηλαδή όταν, \(m=1\). Τότε
+προκύπτει ότι:}
+
+\begin{gather*}
+A(a_0,a_1)=(n+1)\overline{y^2}-2a_1(n+1)\overline{xy}-2a_0(n+1)\overline{y}+a_0^2(n+1)\overline{x^2}+2a_0a_1(n+1)\overline{x}+(n+1)a_0 \\
+\text{όπου,} \ \overline{y^2}=\frac{y_0^2+\cdots+y_n^2}{n+1} \ , \ \overline{x^2}=\frac{x_0^2+\cdots+x_n^2}{n+1} \ , \ \overline{xy}=\frac{x_0y_0+\cdots+x_ny_n}{n+1} \ , \ \overline{y}=\frac{y_0+\cdots+y_n}{n+1} \ , \\ \overline{x}=\frac{x_0+\cdots+x_n}{n+1}
+\end{gather*} %We use the gather environment to group multiple equations together
+
+Όμως το πιο πάνω είναι γράφημα ενός \textbf{παραβολοείδους} στο σύστημα
+αξόνων \(\mathbf{O}_{a_0a_1A}\) με θετικούς συντελεστές στους όρους
+\(a_0^2, a_1^2\), οπότε, στρέφει τα κοίλα του προς τα πάνω, δηλαδή είναι
+κυρτό γράφημα και άρα στο κρίσημο σημείο της η \(A\), λόγω αυτής της
+γεωμετρικής απόδειξης, θα παρουσιάζει, απόλυτο \textbf{ελάχιστο}. Η πιο
+πάνω μεθοδολογια εφαρμόζεται και γενικά για \(m \in \mathbb{N}\) και
+έτσι η ελάχιστη τιμή του αθροίσματος των τετραγώνων προκύπτει θέτοντας
+την κλίση της συνάρτησης του σφάλματος ίση με το \(0\) για κάθε τιμή του
+\(m\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Επιλύουμε το ανωτέρω σύστημα, \eqref{eq:9}, είτε με απαλοιφή Gauss
+  είτε με την μέθοδο του Cramer και βρίσκουμε, εάν ο πίνακας συντελεστών
+  του συστήματως \textbf{δεν} ειναι ιδιάζων, την μοναδική του λύση
+  \(\vec{\mu}=(\mu_0 \dots, \ \mu_m) \in \mathbb{R}^{m+1}\)
+\end{enumerate}
+
+Έστω το σύνολο λύσεων του συστήματος \eqref{eq:9};
+\(\mathcal{S}=\{\vec{\alpha} \in \mathbb{R}^{m+1}: \vec{\alpha} \text{ είναι λύση του συστήματος } \eqref{eq:9} \} = \{s_1, \dots, \ s_l\}\).
+Εάν \(|\mathcal{S}|=1\) με μοναδικό στοιχείο το \(\vec{\mu}\):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Εάν, \(\vec{\mu}=(\mu_0 \dots, \ \mu_m) \in \mathbb{R}^{m+1}\) τότε το
+  πολυώνυμο: \[
+  g(x) = \mu_mx^m+\mu_{m-1}x^{m-1}+\cdots+\mu_1x+\mu_0 \ , \  \text{είναι το ζητούμενο προσεγγιστικό πολυώνυμο} \nonumber
+  \]
+\end{enumerate}
+  
+
+Αφότου είδαμε την γενική περίπτωση της μεθόδου των ελαχίστων τετραγώνων,
+εας δούμε τώρα κάποια πρακτικά παραδείγματα, με βάση την πιο πάνω γενική
+μεθοδολογία, μαζί με προσομοιώσεις και γεωμετρικές απεικονίσεις με την
+βοήθεια της \(MATLAB\) και της Python. Για την ακρίβεια, παραδείγματα τα
+οποία επικαλόνται μιας λογικής σειράς επίλυσης και κατανόησης θα τα
+επιλύουμε με την χρήση της Python, καθώς αυτό το paper δημιουργήθηκε με σκόπο να διαβάζεται μέσω του \(Jupyter \ Notebook\) environment, το οποίο προσφέρει interactive Python console και την δυνατότητα επεξεργασίας κώδικα καθώς και την παρουσίαση γραφημάτων της Matplotlib, inline.
+
+\subsection{Παραδείγματα πάνω στην Διακριτή Εκδοχή της Μεθόδου Ελαχίστων Τετραγώνων}
+
+    \hypertarget{ux3c0ux3b1ux3c1ux3acux3b4ux3b5ux3b9ux3b3ux3bcux3b1-1-ux3adux3c3ux3c4ux3c9-ux3c4ux3b1-ux3b4ux3b5ux3b4ux3bfux3bcux3adux3bdux3b1-1-2.5-3-3.5-5-6.35-text-ux3baux3b1ux3b9-7-8.1-n3.-tux3b1-ux3b1ux3c0ux3b5ux3b9ux3baux3bfux3bdux3afux3b6ux3bfux3c5ux3bcux3b5-ux3bcux3b5-ux3c4ux3bfux3bd-ux3c0ux3b9ux3bf-ux3baux3acux3c4ux3c9-ux3baux3ceux3b4ux3b9ux3baux3b1}{%
+\subsubsection{\texorpdfstring{Παράδειγμα 1: Έστω τα δεδομένα
+\((1, 2.5), \ (3, 3.5), \ (5, 6.35) \text{ και } (7, 8.1), \ (n=3)\). Tα
+απεικονίζουμε με τον πιο κάτω
+κώδικα:}{Παράδειγμα 1: Έστω τα δεδομένα (1, 2.5), \textbackslash{} (3, 3.5), \textbackslash{} (5, 6.35) \textbackslash text\{ και \} (7, 8.1), \textbackslash{} (n=3). Tα απεικονίζουμε με τον πιο κάτω κώδικα:}}\label{ux3c0ux3b1ux3c1ux3acux3b4ux3b5ux3b9ux3b3ux3bcux3b1-1-ux3adux3c3ux3c4ux3c9-ux3c4ux3b1-ux3b4ux3b5ux3b4ux3bfux3bcux3adux3bdux3b1-1-2.5-3-3.5-5-6.35-text-ux3baux3b1ux3b9-7-8.1-n3.-tux3b1-ux3b1ux3c0ux3b5ux3b9ux3baux3bfux3bdux3afux3b6ux3bfux3c5ux3bcux3b5-ux3bcux3b5-ux3c4ux3bfux3bd-ux3c0ux3b9ux3bf-ux3baux3acux3c4ux3c9-ux3baux3ceux3b4ux3b9ux3baux3b1}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{o}{\PYZpc{}}\PY{k}{config} InlineBachend.figure\PYZus{}format=\PYZsq{}svg\PYZsq{} \PYZsh{}saving the figure in vector graphics format for better quality
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{]}\PY{p}{,} \PY{n+nb}{int}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{2.5}\PY{p}{,} \PY{l+m+mf}{3.5}\PY{p}{,} \PY{l+m+mf}{6.35}\PY{p}{,} \PY{l+m+mf}{8.1}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Creating the plot and editing some of its attributes for clarity. We will just copy and paste them for future use.}
+\PY{c+c1}{\PYZsh{} We also assign every modification to our plot to a dummy/garbage collecting variable; \PYZsq{}\PYZus{}\PYZsq{} to prevent unwanted outputs}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y} \PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Our Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}gca stands for get current axes}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18} 
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)} \PY{c+c1}{\PYZsh{}Sets the legend box at the best location}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{show}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_22_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Παρατηρούμε, για καλή μας τύχη, ότι τα δεδομένα μας μπορούν να
+προσεγγιστούν με ικανοποιητική ακρίβεια από μια εξίσωση ευθείας, δηλαδή
+απο ένα πολυώνυμο βαθμού 1. Έστω αυτό είναι το \(g(x)=ax+b\). Όπως
+είπαμε και στην θεωρία μας, οι συντελέστες αυτού του πολυωνύμου,
+\(a, \ b\) είναι οι αριθμοί οι οποιοί ελαχιστοποιούν την ακόλουθη
+παράσταση:
+
+\begin{align*}
+A(a,b) &= (g(x_1)-y_1)^2+(g(x_2)-y_2)^2+(g(x_3)-y_3)^2+(g(x_4)-y_4)^2 \nonumber \\
+       &= (ax_1+b-y_1)^2+(ax_2+b-y_2)^2+(ax_3+b-y_3)^2+(ax_4+b-y_4)^2 
+\end{align*}
+
+Βρίσκουμε τωρα τα κρίσημα σημεία της συνάρτησης αυτής, υπολογίζοντας
+αρχικά τις μερικές παραγώγους της συνάρτησης \(A\) ως προς \(a\) και ως
+προς \(b\) και έπειτα λύνωντας το σύστημα:
+\(\frac{\partial A}{\partial a}=0 \text{ και } \frac{\partial A}{\partial b}=0\).
+Έχουμε:
+
+\begin{align}
+\frac{\partial A}{\partial a} &= 2[x_1(ax_1+b-y_1)+x_2(ax_2+b-y_2)+x_3(ax_3+b-y_3)+x_4(ax_4+b-y_4)] \nonumber \\
+                              &= 2[a(x_1^2+x_2^2+x_3^2+x_4^2)+b(x_1+x_2+x_3+x_4)-(x_1y_1+x_2y_2+x_3y_3+x_4y_4)] \ = \ 0 \nonumber \\ \tag{Ex. 1.1} \label{eq:10}
+\end{align}
+
+\begin{align}
+\frac{\partial A}{\partial b} &= 2[(ax_1+b-y_1)+(ax_2+b-y_2)+(ax_3+b-y_3)+(ax_4+b-y_4)] \nonumber \\
+                              &= 2[a(x_1+x_2+x_3+x_4)+4b-(y_1+y_2+y_3+y_4)] \ = \ 0 \nonumber \\
+\tag{Ex. 1.2} \label{eq:11}
+\end{align}
+
+Tώρα ορίζοντας τις πιο κάτω ποσότητες:
+
+\[
+\mathcal{S}_{xx}=\sum_{i=1}^4x_i^2, \ \mathcal{S}_{x}=\sum_{i=1}^4x_i, \ \mathcal{S}_{xy}=\sum_{i=1}^4x_iy_i, \ \mathcal{S}_{y}=\sum_{i=1}^4y_i \nonumber
+\]
+
+το σύστημα εξισώσεων \eqref{eq:10} και \eqref{eq:11}, γνωστες και ως οι
+\textbf{κανονικές εξισώσεις των δεδομένων (normal equations)} του
+συνόλου δεδομένων, μετατρέπεται στο \textbf{ισοδύναμο} ομοιογενές
+γραμμικό σύστημα:
+
+\[
+\begin{cases}
+a\mathcal{S}_{xx}+b\mathcal{S}_{x}=\mathcal{S}_{xy} \\
+a\mathcal{S}_{x}+4b=\mathcal{S}_{y} \\
+\end{cases} \nonumber \\
+\Leftrightarrow \\
+\mathbf{S}
+\cdot
+\begin{pmatrix}
+a \\
+b \\
+\end{pmatrix}
+\ = \
+\begin{pmatrix}
+\mathcal{S}_{xy} \\
+\mathcal{S}_{y} \\
+\end{pmatrix}
+\equiv
+\begin{pmatrix}
+\mathcal{S}_{xx} & \mathcal{S}_{x} \\
+\mathcal{S}_{x} & 4 \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+a \\
+b \\
+\end{pmatrix}
+\ = \
+\begin{pmatrix}
+\mathcal{S}_{xy} \\
+\mathcal{S}_{y} \\
+\end{pmatrix}
+\]
+
+Τώρα εάν ο πίνακας \(\mathbf{S}\) είναι \textbf{αντιστρέψιμος}, δηλαδή
+\(4\mathcal{S}_{xx}-\mathcal{S}_{x}^2 \neq 0\), όπως γνωρίζουμε από την
+Γραμμική Άλγεβρα το ανωτέρο γραμμικο σύστημα έχει \textbf{μοναδική} λύση
+η οποία, από απαλοιφή Gauss ή απο μέθοδο του Cramer προκύπτει να είναι
+η:
+
+\[
+a=\frac{4\mathcal{S}_{xy}-\mathcal{S}_{x}\mathcal{S}_{y}}{4\mathcal{S}_{xx}-\mathcal{S}_{x}^2}, \ \ b=\frac{\mathcal{S}_{xx}\mathcal{S}_{y}-\mathcal{S}_{xy}\mathcal{S}_{x}}{4\mathcal{S}_{xx}-\mathcal{S}_{x}^2} \nonumber
+\]
+
+Για την \emph{γραμμική εκδοχή της Μεθόδου Ελαχίστων Τετραγώνων} θα
+δημιουργήσουμε συναρτήση στην \(MATLAB\) όπου επιστρέφει τους
+συντελεστές \(a, \ b\) του πολυωνύμου \(g(x)=ax+b\) όπου αποτελεί την
+\textbf{γραμμική προσέγγιση ελαχίστων τετραγώνων των δεδομένων (σε
+arrays/vectors)}, \(\vec{x}, \ \vec{y}\). Στα NumPy \& SciPy module της
+Python ήδη υπάρχει η built-in συνάρτηση \textbf{lstsq()} όπου κάνει αυτή
+ακριβώς την δουλειά για εμάς. Aρχικά ας γράψουμε μια συνάρτηση σε ένα
+m-file όπου για ένα τυχαίο δείγμα δεδομένων \(\vec{x}, \ \vec{y}\)
+μεγέθους n θα μας επιστρέφει το γραμμικό πολυώνυμο ελαχίστων τετραγώνων
+(σε array μορφη στην \(MATLAB\)), \(g(x)\).
+
+    
+
+
+\textbf{Our \(MATLAB\) function:}
+
+\includegraphics[width=16cm, height=12cm]{matlab_code.jpg}
+
+\textbf{Output:}
+
+\includegraphics[width=16cm, height=6cm]{lin_lsq_output.png}
+    
+\textbf{Creating an equivelant Python function and visualising
+the linear approximation of the LSQ Method compared to the data
+set}
+
+\begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{c+c1}{\PYZsh{}saving the figure in vector graphics format for better quality}
+\PY{o}{\PYZpc{}}\PY{k}{config} InlineBachend.figure\PYZus{}format=\PYZsq{}svg\PYZsq{} 
+
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{numpy}\PY{n+nn}{.}\PY{n+nn}{linalg} \PY{k}{as} \PY{n+nn}{LA}
+
+\PY{k}{def} \PY{n+nf}{lin\PYZus{}lsq}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    This function returns the coefficients of the linear regression AND the corresponding linear polyonomial}
+\PY{l+s+sd}{    of the given input data, x and y, in row or column vector form. It implements the linear version of the Method }
+\PY{l+s+sd}{    of Least Squares. It also displays a table where each row contains the x and y coordinates of the data, the }
+\PY{l+s+sd}{    linear function of the method of LSQ evaluated at that point and the absolute error of the best\PYZhy{}fit linear }
+\PY{l+s+sd}{    function and the data. We also display the total squared error at the end.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{n} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{prod}\PY{p}{(}\PY{n}{x}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+    \PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{}if given otherwise, we turn x and y vectors to column vectors}
+    \PY{n}{y} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{s\PYZus{}x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}xx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}xy} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{n}{y}\PY{p}{)}
+    \PY{n}{S} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{s\PYZus{}xx}\PY{p}{,} \PY{n}{s\PYZus{}x}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{s\PYZus{}x}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+    \PY{n}{d} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{s\PYZus{}xy}\PY{p}{,} \PY{n}{s\PYZus{}y}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{S\PYZus{}inv} \PY{o}{=} \PY{n}{LA}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{n}{S}\PY{p}{)} \PY{c+c1}{\PYZsh{} if LA.det(S)=0 then a LinAlgError exception will be raised}
+    \PY{k}{except} \PY{n}{LA}\PY{o}{.}\PY{n}{LinAlgError}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s+s2}{With the given data, the system of normal equations of the Method of LSQ, does not have or }
+\PY{l+s+s2}{                 has infinite solutions because the coefficient matrix, S, is singular, i.e. it doesnt have an inverse.}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+        \PY{k}{return} \PY{k+kc}{None}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{sol} \PY{o}{=} \PY{n}{LA}\PY{o}{.}\PY{n}{solve}\PY{p}{(}\PY{n}{S}\PY{p}{,}\PY{n}{d}\PY{p}{)}
+        \PY{n}{a} \PY{o}{=} \PY{n}{sol}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{;} \PY{n}{b} \PY{o}{=} \PY{n}{sol}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+        \PY{n}{g} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{poly1d}\PY{p}{(}\PY{p}{[}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{]}\PY{p}{)}
+        \PY{n}{g\PYZus{}x} \PY{o}{=} \PY{n}{g}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{err} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{g\PYZus{}x}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|    x    |    y    |   g(x)  |   y\PYZhy{}g(x) | }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{ \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{table} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{g\PYZus{}x}\PY{p}{,} \PY{n}{err}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{for} \PY{p}{(}\PY{n}{x\PYZus{}i}\PY{p}{,} \PY{n}{y\PYZus{}i}\PY{p}{,} \PY{n}{g\PYZus{}xi}\PY{p}{,} \PY{n}{err\PYZus{}i}\PY{p}{)} \PY{o+ow}{in} \PY{n}{table}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|  }\PY{l+s+si}{\PYZob{}}\PY{n}{x\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{y\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}xi}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{err\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{6.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Also the total squared error is }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{return} \PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{)}\PY{p}{,} \PY{n}{g}
+
+
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{]}\PY{p}{,} \PY{n+nb}{int}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{2.5}\PY{p}{,} \PY{l+m+mf}{3.5}\PY{p}{,} \PY{l+m+mf}{6.35}\PY{p}{,} \PY{l+m+mf}{8.1}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+\PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{)}\PY{p}{,} \PY{n}{g} \PY{o}{=} \PY{n}{lin\PYZus{}lsq}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The coefficients of the linear polyonomial of the Method of LSQ are: a = }\PY{l+s+si}{\PYZob{}}\PY{n}{a}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ and b = }\PY{l+s+si}{\PYZob{}}\PY{n}{b}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{num}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\PY{n}{g\PYZus{}t} \PY{o}{=} \PY{n}{g}\PY{p}{(}\PY{n}{t}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Creating the plot and editing some of its attributes for clarity. We will just copy and paste them for future use.}
+\PY{c+c1}{\PYZsh{} We also assign every modification to our plot to a dummy/garbage collecting variable; \PYZsq{}\PYZus{}\PYZsq{} to prevent unwanted outputs}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y} \PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Our Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{g\PYZus{}t}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{2.0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g(x)=ax+b\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}gca stands for get current axes}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18} 
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)} \PY{c+c1}{\PYZsh{}Sets the legend box at the best location}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The plot of the data compared to our approximation}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+              \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{fontsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{18}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{verticalalignment}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{baseline}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horizontalalignment}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}} \PY{p}{)}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{show}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+|    x    |    y    |   g(x)  |   y-g(x) |
+ ----------------------------------------
+|   1.00  |   2.50  |   2.17  |    0.33  |
+|   3.00  |   3.50  |   4.13  |   -0.63  |
+|   5.00  |   6.35  |   6.09  |    0.25  |
+|   7.00  |   8.10  |   8.06  |    0.04  |
+Also the total squared error is 0.58
+
+The coefficients of the linear polyonomial of the Method of LSQ are: a = 0.98
+and b = 1.18
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_30_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \emph{Βλέπουμε απο τα αποτελέσματα της Python και της MATLAB ότι, με
+ακρίβεια 2 δεκαδικών ψηφίων, οι 2 εκδοχές της Μεθόδου LSQ επιφέρει και
+στα 2 προγράμματα / προσομοιώσεις το ίδιο αποτέλεσμα. Στην Python, όπως
+είχαμε προαναφέρει, θα μπορούσαμε να χρησιμοποιήσουμε απευθείας την
+συνάρτηση lstsq() του NumPy ή SciPy module αντί για την lin\_lsq() που
+εμείς δημιουργήσαμε.}
+
+    
+
+    \hypertarget{ux3c0ux3b1ux3c1ux3acux3b4ux3b5ux3b9ux3b3ux3bcux3b1-2-ux3c4ux3b5ux3c4ux3c1ux3b1ux3b3ux3c9ux3bdux3b9ux3baux3adux3c2-ux3baux3b1ux3b9-ux3baux3c5ux3b2ux3b9ux3baux3adux3c2-ux3c0ux3c1ux3bfux3c3ux3b5ux3b3ux3b3ux3afux3c3ux3b5ux3b9ux3c2-ux3c4ux3b7ux3c2-ux3bcux3b5ux3b8ux3ccux3b4ux3bfux3c5-ux3b5ux3bbux3b1ux3c7ux3afux3c3ux3c4ux3c9ux3bd-ux3c4ux3b5ux3c4ux3c1ux3b1ux3b3ux3ceux3bdux3c9ux3bd}{%
+\subsubsection{Παράδειγμα 2: Τετραγωνικές και κυβικές προσεγγίσεις της
+Μεθόδου Ελαχίστων Τετραγώνων}}
+
+    Με την ίδια μεθοδολογία που αναπτύξαμε πριν φτάσουμε στα παραδειγματα
+και που εφαρμόσαμε στο \emph{Παράδειγμα 1}, θα δούμε την μεθοδολογία για
+να προσεγγίσουμε ένα σύνολο δεδομένων
+\(\{(x_0,y_0),(x_1,y_1),\dots,(x_{n},y_{n})\}\), με πολυώνυμα βαθμού 2
+(\textbf{Quadratic Least Squares Approximation}) και βαθμού 3
+(\textbf{Cubic Least Squares Approximation}) (Στην περίπτωση όπου
+\(n=3\) τότε το πολυώνυμο που προκύπτει από την Κυβική προσέγγιση
+ελαχίστων τετραγώνων \emph{είναι} το πολυώνυμο παρεμβολής του Legendre,
+λόγω μοναδικότητας και καθώς m=n (βλέπε \textbf{Παράδειγμα 2.1} και
+\eqref{eq:1}) και όταν \(n=2\), το πολυώνυμο που προκύπτει απο την
+Τετραγωνική προσέγγιση ελαχίστων τετραγώνων \emph{είναι} το πολυώνυμο
+παρεμβολής του Legendre). Άρα θα δούμε τις περιπτώσεις όπου \(m=2\) και
+\(m=3\), αντίστοιχα. (στο \emph{Παράδειγμα 1}, είδαμε την περίπτωση
+\(m=1\))
+
+{\Large $m=2$:}
+
+Έχουμε ότι η συνάρτηση σφάλματος ορίζεται να είναι η:
+\(A(a,b,c)=\sum_{i=1}^{n+1}(g(x_i)-y_i)^2\) όπου \(g(x)=ax^2+bx+c\),
+είναι το ζητούμενο προσεγγιστικό πολυώνυμο της Μεθόδου Ελαχίστων
+Τετραγώνων. Εξισώνοντας τις μερικές παραγώγους της \(A\) ως προς
+\(a, \ b, \ c\) με το \(0\), τότε προκύπτουν οι \textbf{κανονικές
+εξισώσεις} των συντελεστών, \(a, \ b, \ c\):
+
+\[
+\begin{cases}
+a\sum_{i=0}^n x_i^4+b\sum_{i=0}^n x_i^3+c\sum_{i=0}^n x_i^2 = \sum_{i=0}^n x_i^2y_i \\
+a\sum_{i=0}^n x_i^3+b\sum_{i=0}^n x_i^2+c\sum_{i=0}^n x_i = \sum_{i=0}^n x_iy_i \\
+a\sum_{i=0}^n x_i^2+b\sum_{i=0}^n x_i+ \ (n+1)c \ = \sum_{i=0}^n y_i 
+\end{cases} \nonumber
+\]
+
+Εαν τώρα το ανωτέρω γραμμικό σύστημα έχει μη-ιδιάζων πίνακα συντελεστών;
+\(\mathcal{S}\) τότε αυτό έχει μοναδική λύση, της οποίας οι
+συντεταγμένες όπως είχαμε δει, είναι οι συντελεστές του ζητούμενου
+πολυωνύμου, \(g(x)\). Aπό την μέθοδο του Cramer προκύπτει ότι:
+
+\begin{gather*}
+a=\frac{\begin{vmatrix}
+\sum_{i=0}^n x_i^2y_i & \sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 \\
+\sum_{i=0}^n x_iy_i & \sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i \\
+\sum_{i=0}^n y_i & \sum_{i=0}^n x_i & (n+1)
+\end{vmatrix}}{\begin{vmatrix}
+\sum_{i=0}^n x_i^4 & \sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 \\
+\sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i \\
+\sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i & (n+1)
+\end{vmatrix}}, \ 
+b=\frac{\begin{vmatrix}
+\sum_{i=0}^n x_i^4 & \sum_{i=0}^n x_i^2y_i & \sum_{i=0}^n x_i^2 \\
+\sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_iy_i & \sum_{i=0}^n x_i \\
+\sum_{i=0}^n x_i^2 & \sum_{i=0}^n y_i & (n+1)
+\end{vmatrix}}{\begin{vmatrix}
+\sum_{i=0}^n x_i^4 & \sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 \\
+\sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i \\
+\sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i & (n+1)
+\end{vmatrix}}, \\
+c=\frac{\begin{vmatrix}
+\sum_{i=0}^n x_i^4 & \sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2y_i \\
+\sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_iy_i \\
+\sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i & \sum_{i=0}^n y_i \\
+\end{vmatrix}}{\begin{vmatrix}
+\sum_{i=0}^n x_i^4 & \sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 \\
+\sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i \\
+\sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i & (n+1)
+\end{vmatrix}}
+\end{gather*}
+
+\[
+\text{ όπου ισχύει ότι } \begin{vmatrix}
+\sum_{i=0}^n x_i^4 & \sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 \\
+\sum_{i=0}^n x_i^3 & \sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i \\
+\sum_{i=0}^n x_i^2 & \sum_{i=0}^n x_i & (n+1)
+\end{vmatrix} \ne 0 \nonumber
+\]
+
+{\Large $m=3$:}
+
+Παρομοίως έχουμε ότι, με ανάλογο τρόπο των περιπτώσεων m=1 και m=2, το
+σύστημα γραμμικών εξισώσεων που προσδιορίζει του συντελεστές της ``best
+fit'' κυβικής συνάρτησης \(g(x)=ax^3+bx^2+cx+d\) είναι το:
+
+\[
+\begin{cases}
+a\sum_{i=0}^n x_i^6+b\sum_{i=0}^n x_i^5+c\sum_{i=0}^n x_i^4+d\sum_{i=0}^n x_i^3 = \sum_{i=0}^n x_i^3y_i \nonumber \\
+a\sum_{i=0}^n x_i^5+b\sum_{i=0}^n x_i^4+c\sum_{i=0}^n x_i^3 +d\sum_{i=0}^n x_i^2 = \sum_{i=0}^n x_i^2y_i \nonumber \\
+a\sum_{i=0}^n x_i^4+b\sum_{i=0}^n x_i^3+ c\sum_{i=0}^n x_i^2+d\sum_{i=0}^n x_i= \sum_{i=0}^n x_iy_i \nonumber \\
+a\sum_{i=0}^n x_i^3+b\sum_{i=0}^n x_i^2+ c\sum_{i=0}^n x_i+ \ d(n+1) \ = \sum_{i=0}^n y_i
+\end{cases} \nonumber
+\]
+
+To οποίο επιλύεται με μεθόδους Γραμμικής Άλγεβρας ή αλγορίθμων επίλυσης
+γραμμικών συστημάτων. Για παράδειγμα, θα δούμε ότι για τα δεδομένα του
+\emph{Παραδείγματος 1}, καθώς \(n=3=m\) τότε η Κυβική Προσέγγιση
+Ελαχίστων Τετραγώνων είναι το μοναδικό πολυώνυμο Legendre όπου
+επαληθεύει το σύνολο δεδομένων μας, όπως σημειώσαμε και στο \eqref{eq:1}.
+
+\subsubsection{Παράδειγμα 3: Κυβική προσέγγιση ελαχίστων
+τετραγώνων επί των δεδομένων
+\((1, 2.5), \ (3, 3.5), \ (5, 6.35) \text{ και } (7, 8.1), \ (n=3)\)}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{c+c1}{\PYZsh{}saving the figure in vector graphics format for better quality}
+\PY{o}{\PYZpc{}}\PY{k}{config} InlineBachend.figure\PYZus{}format=\PYZsq{}svg\PYZsq{} 
+
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{numpy}\PY{n+nn}{.}\PY{n+nn}{linalg} \PY{k}{as} \PY{n+nn}{LA}
+
+\PY{k}{def} \PY{n+nf}{cub\PYZus{}lsq}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    This function returns the coefficients of the CUBIC regression AND the corresponding linear polyonomial}
+\PY{l+s+sd}{    of the given input data, x and y, in row or column vector form. It implements the CUBIC version of the Method }
+\PY{l+s+sd}{    of Least Squares. It also displays a table where each row contains the x and y coordinates of the data, the }
+\PY{l+s+sd}{    cubic function of the method of LSQ evaluated at that point and the absolute error of the best\PYZhy{}fit cubic}
+\PY{l+s+sd}{    function and the data. We also display the total squared error at the end.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{n} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{prod}\PY{p}{(}\PY{n}{x}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+    \PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{}if given otherwise, we turn x and y vectors to column vectors}
+    \PY{n}{y} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{s\PYZus{}x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}x2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}x3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}x4} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}x5} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}x6} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{6}\PY{p}{)}
+    \PY{n}{s\PYZus{}x3y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{y}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}x2y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{y}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}xy} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{n}{y}\PY{p}{)}\PY{p}{;} \PY{n}{s\PYZus{}y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{y}\PY{p}{)}
+    \PY{n}{S} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{s\PYZus{}x6}\PY{p}{,} \PY{n}{s\PYZus{}x5}\PY{p}{,} \PY{n}{s\PYZus{}x4}\PY{p}{,} \PY{n}{s\PYZus{}x3}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{s\PYZus{}x5}\PY{p}{,} \PY{n}{s\PYZus{}x4}\PY{p}{,} \PY{n}{s\PYZus{}x3}\PY{p}{,} \PY{n}{s\PYZus{}x2}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{s\PYZus{}x4}\PY{p}{,} \PY{n}{s\PYZus{}x3}\PY{p}{,} \PY{n}{s\PYZus{}x2}\PY{p}{,} \PY{n}{s\PYZus{}x}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{s\PYZus{}x3}\PY{p}{,} \PY{n}{s\PYZus{}x2}\PY{p}{,} \PY{n}{s\PYZus{}x}\PY{p}{,} \PY{n}{n}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+    \PY{n}{r} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{s\PYZus{}x3y}\PY{p}{,} \PY{n}{s\PYZus{}x2y}\PY{p}{,} \PY{n}{s\PYZus{}xy}\PY{p}{,} \PY{n}{s\PYZus{}y}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{S\PYZus{}inv} \PY{o}{=} \PY{n}{LA}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{n}{S}\PY{p}{)} \PY{c+c1}{\PYZsh{} if LA.det(S)=0 then a LinAlgError exception will be raised}
+    \PY{k}{except} \PY{n}{LA}\PY{o}{.}\PY{n}{LinAlgError}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s+s2}{With the given data, the system of normal equations of the Method of LSQ, does not have or }
+\PY{l+s+s2}{                 has infinite solutions because the coefficient matrix, S, is singular, i.e. it doesnt have an inverse.}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+        \PY{k}{return} \PY{k+kc}{None}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{sol} \PY{o}{=} \PY{n}{LA}\PY{o}{.}\PY{n}{solve}\PY{p}{(}\PY{n}{S}\PY{p}{,}\PY{n}{r}\PY{p}{)}
+        \PY{n}{a} \PY{o}{=} \PY{n}{sol}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{;} \PY{n}{b} \PY{o}{=} \PY{n}{sol}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{;} \PY{n}{c} \PY{o}{=} \PY{n}{sol}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{;} \PY{n}{d} \PY{o}{=} \PY{n}{sol}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}
+        \PY{n}{g} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{poly1d}\PY{p}{(}\PY{p}{[}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{d}\PY{p}{]}\PY{p}{)}
+        \PY{n}{g\PYZus{}x} \PY{o}{=} \PY{n}{g}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{err} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{g\PYZus{}x}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|    x    |    y    |   g(x)  |   y\PYZhy{}g(x) | }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{ \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{table} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{g\PYZus{}x}\PY{p}{,} \PY{n}{err}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{for} \PY{p}{(}\PY{n}{x\PYZus{}i}\PY{p}{,} \PY{n}{y\PYZus{}i}\PY{p}{,} \PY{n}{g\PYZus{}xi}\PY{p}{,} \PY{n}{err\PYZus{}i}\PY{p}{)} \PY{o+ow}{in} \PY{n}{table}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|  }\PY{l+s+si}{\PYZob{}}\PY{n}{x\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{y\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}xi}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{err\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{6.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Also the total squared error is }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{return} \PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{d}\PY{p}{)}\PY{p}{,} \PY{n}{g}
+
+
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{]}\PY{p}{,} \PY{n+nb}{int}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{2.5}\PY{p}{,} \PY{l+m+mf}{3.5}\PY{p}{,} \PY{l+m+mf}{6.35}\PY{p}{,} \PY{l+m+mf}{8.1}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+\PY{p}{(}\PY{n}{a}\PY{p}{,}\PY{n}{b}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{d}\PY{p}{)}\PY{p}{,} \PY{n}{g} \PY{o}{=} \PY{n}{cub\PYZus{}lsq}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The coefficients of the CUBIC polyonomial of the Method of LSQ are: a = }\PY{l+s+si}{\PYZob{}}\PY{n}{a}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, b = }\PY{l+s+si}{\PYZob{}}\PY{n}{b}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, c = }\PY{l+s+si}{\PYZob{}}\PY{n}{c}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ and d = }\PY{l+s+si}{\PYZob{}}\PY{n}{d}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{num}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\PY{n}{g\PYZus{}t} \PY{o}{=} \PY{n}{g}\PY{p}{(}\PY{n}{t}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s+s2}{We see that our approximation interpolates our data, EXACTLY. As we see from the output table, the total squared }
+\PY{l+s+s2}{error is 0, as well as the individual differences of the data and the approximations at each point (with a specific }
+\PY{l+s+s2}{tolerance). That is attributed to the fact, like we explained at our theory overview at the beginning of this Jupyter }
+\PY{l+s+s2}{Notebook, that the number of data points, (in this example 4=n+1) is exactly one above the degree of the polyonomial}
+\PY{l+s+s2}{approximation that we try to achieve with the Method of Least Squares. That is m=3=4\PYZhy{}1=n. So in other words, in this}
+\PY{l+s+s2}{instance where m=3=4\PYZhy{}1, the Method of Cubic Apprpximation is equivalent to the Legendre Method of Polyonomial }
+\PY{l+s+s2}{Interpolation that we discussed briefly at the beginning!}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Creating the plot and editing some of its attributes for clarity. We will just copy and paste them for future use.}
+\PY{c+c1}{\PYZsh{} We also assign every modification to our plot to a dummy/garbage collecting variable; \PYZsq{}\PYZus{}\PYZsq{} to prevent unwanted outputs}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Cubic approximation of our data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y} \PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Our Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{g\PYZus{}t}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{2.0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g(x)=ax\PYZca{}3+bx\PYZca{}2+cx+d\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}gca stands for get current axes}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18} 
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)} \PY{c+c1}{\PYZsh{}Sets the legend box at the best location}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The plot of the data compared to our cubic approximation}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+              \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{fontsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{18}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{verticalalignment}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{baseline}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{horizontalalignment}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}} \PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{show}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+|    x    |    y    |   g(x)  |   y-g(x) |
+ ----------------------------------------
+|   1.00  |   2.50  |   2.50  |    0.00  |
+|   3.00  |   3.50  |   3.50  |   -0.00  |
+|   5.00  |   6.35  |   6.35  |    0.00  |
+|   7.00  |   8.10  |   8.10  |   -0.00  |
+Also the total squared error is 0.00
+
+The coefficients of the CUBIC polyonomial of the Method of LSQ are: a = -0.06, b
+= 0.78, c = -1.84 and d = 3.62
+We see that our approximation interpolates our data, EXACTLY. As we see from the
+output table, the total squared
+error is 0, as well as the individual differences of the data and the
+approximations at each point (with a specific
+tolerance). That is attributed to the fact, like we explained at our theory
+overview at the beginning of this Jupyter
+Notebook, that the number of data points, (in this example 4=n+1) is exactly one
+above the degree of the polyonomial
+approximation that we try to achieve with the Method of Least Squares. That is
+m=3=4-1=n. So in other words, in this
+instance where m=3=4-1, the Method of Cubic Apprpximation is equivalent to the
+Legendre Method of Polyonomial
+Interpolation that we discussed briefly at the beginning!
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}   
+
+ \subsection{Προσαρμογή δεδομένων με μη-πολυωνυμικές συναρτήσεις -
+Eκθετικές Προσεγγίσεις}
+
+    Πολλές φόρες προκύπτει το ενδεχόμενο όπου δεν θέλουμε να προσαρμόσουμε
+πολυώνυμο στα δεδομένα μας και θα ήταν πιο βολικό σε αυτά να
+προσαρμόσουμε μια συνάρτηση που τα αντιπροσωπεύει καλύτερα και πιο
+αποτελεσματικά. Για παράδειγμα σε μια έρευνα που έγινε από το Indiana
+University Center for Studies of Law in Action το 2007 και δημοσιεύτηκε
+στο παγκόσμιο συνέδριο του ICADTS - The International Council on
+Alcohol, Drugs and Traffic Safety στο Seattle, USA, μελετήθηκε το ρίσκο
+αυτοκινητιστικού ατυχήματος υπό την επήρεια αλκοόλης. Δεδομένα από 2871
+αυτοκινητιστικά ατυχήματα / δυστυχήματα χρησιμοποιήθηκαν ώστε να
+υπολογιστεί κατα πόσο συσχετίζεται η Συγκέντρωση Αλκοόλ στο αίμα (BAC --
+Blood Alcohol Concentration) με το ρίσκο να γίνει ένα αυτοκινητιστικό
+δυστήχημα. Ο παρακάτω πίνακας παρουσιάζει τα αποτελέσματα της έρευνας:
+
+\begin{longtable}[]{@{}lc@{}}
+\toprule
+BAC & Relative Risk of crashing\tabularnewline
+\midrule
+\endhead
+0 & 1\tabularnewline
+0.01 & 1.03\tabularnewline
+0.03 & 1.06\tabularnewline
+0.05 & 1.38\tabularnewline
+0.07 & 2.09\tabularnewline
+0.09 & 3.54\tabularnewline
+0.11 & 6.41\tabularnewline
+0.13 & 12.6\tabularnewline
+0.15 & 22.1\tabularnewline
+0.17 & 39.05\tabularnewline
+0.19 & 65.32\tabularnewline
+0.21 & 99.78\tabularnewline
+\bottomrule
+\end{longtable}
+
+To \emph{``Relative Risk''} είναι μια ποσότητα προδιορίζει το πόσες
+φορές πιο πιθανό είναι ένα άτομο υπο την καθορισμένη ποσότητα BAC να
+προκαλέσει αυτοκινητιστικό σε σύγκριση με ένα άτομο με \emph{μηδενικό}
+BAC. Για παράδειγμα, ένα άτομο με 0.09 BAC είναι 3.54 φορές πιο πιθανό
+να προκαλέσει ένα αυτοκινητιστικό σε σύγκριση με ένα άτομο με 0 BAC. Εάν
+σχεδιάσουμε τα δεδομένα μας στο Καρτεσιανό επίπεδο με τον \(x\)-άξονα να
+αναπαριστά την στάθμη BAC ενώ ο \(y\)-άξονας να αναπαριστά το αντίστοιχο
+``relative risk'' (σχετικό ρίσκο) παρατηρούμε ότι αυτά προσαρμόζονται
+ιδιαίτερα αποτελεσματικά απο μια \textbf{εκθετική συνάρτηση} (καλύτερα
+απότι θα τα προσέγγιζε ένα πολυώνυμο 2ου ή 3ου ή 4ου βαθμού)
+(\textbf{exponential regression}).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{o}{\PYZpc{}}\PY{k}{config} InlineBachend.figure\PYZus{}format=\PYZsq{}svg\PYZsq{} \PYZsh{}saving the figure in vector graphics format for better quality
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mf}{0.03}\PY{p}{,}\PY{l+m+mf}{0.23}\PY{p}{,}\PY{l+m+mf}{0.02}\PY{p}{)}\PY{p}{)}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mf}{1.03}\PY{p}{,} \PY{l+m+mf}{1.06}\PY{p}{,} \PY{l+m+mf}{1.38}\PY{p}{,} \PY{l+m+mf}{2.09}\PY{p}{,} \PY{l+m+mf}{3.54}\PY{p}{,} \PY{l+m+mf}{6.41}\PY{p}{,} \PY{l+m+mf}{12.6}\PY{p}{,} \PY{l+m+mf}{22.1}\PY{p}{,} \PY{l+m+mf}{39.05}\PY{p}{,} \PY{l+m+mf}{65.32}\PY{p}{,} \PY{l+m+mf}{99.78}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Creating the plot and editing some of its attributes for clarity. We will just copy and paste them for future use.}
+\PY{c+c1}{\PYZsh{} We also assign every modification to our plot to a dummy/garbage collecting variable; \PYZsq{}\PYZus{}\PYZsq{} to prevent unwanted outputs}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y} \PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Our Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BAC level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Relative Risk of Crashing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}gca stands for get current axes}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.05}\PY{p}{,}\PY{l+m+mf}{0.25}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{110}\PY{p}{]}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18} 
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)} \PY{c+c1}{\PYZsh{}Sets the legend box at the best location}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{show}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_42_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Καθώς όπως βλέπουμε τα δεδομένα μας σχετίζονται με εκθετικό τρόπο τότε
+θέλουμε να βρούμε σταθερές \(c\) και \(a\), τέτοιες ώστε η εκθετική
+συνάρτηση \(y=ce^{ax}\) να προσαρμόζει τα δεδομένα μας. Πάλι θα
+χρησιμοποιήσουμε (για καλή μας τύχη) στην \(MATLAB\) την συνάρτηση την
+οποία δημιουργήσαμε, \textbf{lin\_lsq()} ή για ευκολία την εντολή
+\textbf{polyfit()} με arguement στην παράμετρο του βαθμού του
+πολυωνύμου, τον αριθμό \(1\). Υπενθυμίζουμε ότι όταν εάν \(n+1\) είναι
+το πλήθος των δεδομένων μας τότε η συνάρτηση \textbf{polyfit(x,y,m)} της
+\(MATLAB\) επιστρέφει το πoλυώνυμο βαθμού \(m<n\) που προκύπτει από την
+\textbf{Μέθοδο Ελαχίστων Τετραγώνων}. Για να πάρουμε αυτές τις σταθερές
+\(c\) και \(a\), αρκεί να δώσουμε σαν arguements στην εντολή polyfit()
+τα διανύσματα \(\vec{x} \text{ και } \ln{\vec{y}}\) και να ζητήσουμε το
+πολυώνυμο \textbf{1ου βαθμού} με το syntax:
+
+\[
+\text{polyfit(x,log(y),1)} \nonumber
+\]
+
+στην \(MATLAB\). \textbf{Yπενθυμίζουμε ότι η συνάρτηση polyfit(), με την
+ίδια λειτουργικότητα, βρίσκεται και στο NumPy module της Python. Σε αυτό
+το παράδειγμα, αυτή θα χρησιμοποιήσουμε (για σκοπούς του παραδείγματος),
+αντί για την lin\_lsq() που δημιουργήσαμε πιο πάνω στο Παράδειγμα 1}
+
+Ο λόγος που αυτό λειτουργεί είναι απλός;
+
+Εάν \(y=ce^{ax}\) τότε, \[
+\ln{y} = \ln{ce^{ax}} \Rightarrow \overbrace{\ln{y}}^{Y} = \overbrace{\ln{c}}^{C} + ax \Leftrightarrow Y=ax+C \nonumber
+\]
+
+που μας λέει ότι θέλουμε να βρούμε ένα πολυώνυμο 1ου βαθμού, με την
+Μέθοδο Ελαχίστων Τετραγώνων για τα δεδομένα μας \((x,Y)=(x,\ln{y})\) και
+αυτό γιατι έχουμε βάσιμες πληροφορίες (κυρίως γεωμετρικές απο την
+αναπαράσταση των δεδομένων ή από προηγούμενες έρευνες που έγινας στο
+θέμα μας) ότι τα δεδομένα μας συσχετίζονται με εκθετικό τρόπο.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{o}{\PYZpc{}}\PY{k}{config} InlineBachend.figure\PYZus{}format=\PYZsq{}svg\PYZsq{} \PYZsh{}saving the figure in vector graphics format for better quality
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+
+\PY{n}{n} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{prod}\PY{p}{(}\PY{n}{x}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mf}{0.03}\PY{p}{,}\PY{l+m+mf}{0.23}\PY{p}{,}\PY{l+m+mf}{0.02}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mf}{1.03}\PY{p}{,} \PY{l+m+mf}{1.06}\PY{p}{,} \PY{l+m+mf}{1.38}\PY{p}{,} \PY{l+m+mf}{2.09}\PY{p}{,} \PY{l+m+mf}{3.54}\PY{p}{,} \PY{l+m+mf}{6.41}\PY{p}{,} \PY{l+m+mf}{12.6}\PY{p}{,} \PY{l+m+mf}{22.1}\PY{p}{,} \PY{l+m+mf}{39.05}\PY{p}{,} \PY{l+m+mf}{65.32}\PY{p}{,} \PY{l+m+mf}{99.78}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+\PY{n}{g} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{a} \PY{o}{=} \PY{n}{g}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{;} \PY{n}{upper\PYZus{}c} \PY{o}{=} \PY{n}{g}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{;} \PY{n}{c} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{upper\PYZus{}c}\PY{p}{)}\PY{p}{;}
+\PY{n}{g\PYZus{}fun} \PY{o}{=} \PY{k}{lambda} \PY{n}{t}\PY{p}{:} \PY{n}{c}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{a}\PY{o}{*}\PY{n}{t}\PY{p}{)}
+\PY{n}{g\PYZus{}x} \PY{o}{=} \PY{n}{g\PYZus{}fun}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n}{err} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{g\PYZus{}x}
+\PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{g\PYZus{}x} \PY{o}{=} \PY{n}{g\PYZus{}x}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{err} \PY{o}{=} \PY{n}{err}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mf}{0.25}\PY{p}{,}\PY{n}{num}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|    x    |    y    |   g(x)  |   y\PYZhy{}g(x) | }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{ \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{table} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{g\PYZus{}x}\PY{p}{,} \PY{n}{err}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{k}{for} \PY{p}{(}\PY{n}{x\PYZus{}i}\PY{p}{,} \PY{n}{y\PYZus{}i}\PY{p}{,} \PY{n}{g\PYZus{}xi}\PY{p}{,} \PY{n}{err\PYZus{}i}\PY{p}{)} \PY{o+ow}{in} \PY{n}{table}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|  }\PY{l+s+si}{\PYZob{}}\PY{n}{x\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{y\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}xi}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{err\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{6.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Also the total squared error is }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The coefficients of the exponential regression are: c = }\PY{l+s+si}{\PYZob{}}\PY{n}{c}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, a = }\PY{l+s+si}{\PYZob{}}\PY{n}{a}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Creating the plot and editing some of its attributes for clarity. We will just copy and paste them for future use.}
+\PY{c+c1}{\PYZsh{} We also assign every modification to our plot to a dummy/garbage collecting variable; \PYZsq{}\PYZus{}\PYZsq{} to prevent unwanted outputs}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y} \PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Our Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{g\PYZus{}fun}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{2.0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g(x)=ce\PYZca{}}\PY{l+s+si}{\PYZob{}ax\PYZcb{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BAC level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Relative Risk of Crashing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}gca stands for get current axes}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.05}\PY{p}{,}\PY{l+m+mf}{0.25}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{110}\PY{p}{]}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18} 
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)} \PY{c+c1}{\PYZsh{}Sets the legend box at the best location}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{show}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+|    x    |    y    |   g(x)  |   y-g(x) |
+ ----------------------------------------
+|   0.00  |   1.00  |   0.58  |    0.42  |
+|   0.01  |   1.03  |   0.74  |    0.29  |
+|   0.03  |   1.06  |   1.19  |   -0.13  |
+|   0.05  |   1.38  |   1.92  |   -0.54  |
+|   0.07  |   2.09  |   3.09  |   -1.00  |
+|   0.09  |   3.54  |   4.97  |   -1.43  |
+|   0.11  |   6.41  |   8.01  |   -1.60  |
+|   0.13  |  12.60  |  12.89  |   -0.29  |
+|   0.15  |  22.10  |  20.76  |    1.34  |
+|   0.17  |  39.05  |  33.43  |    5.62  |
+|   0.19  |  65.32  |  53.83  |   11.49  |
+|   0.21  |  99.78  |  86.68  |   13.10  |
+Also the total squared error is 343.25
+
+The coefficients of the exponential regression are: c = 0.58, a = 23.82
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_44_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}    
+
+
+\subsection{Προσαρμογή δεδομένων με μη-πολυωνυμικές συναρτήσεις -
+Κλασματικές Προσεγγίσεις}
+
+    Πολλές είναι και οι περιπτώσεις όμως όπου τα δεδομένα μας μπορούν να
+προσαρμοστούν από μια κλασματική συνάρτηση (\textbf{reciprocal
+regression}) εαν υπάρχει κλασματική σχέση μεταξύ των δεδομένων
+(\emph{reciprocal relation}). Δηλαδή εαν παρατηρήσουμε ότι τα δεδομένα
+μας συσχετίζονται με τέτοιο τρόπο τότε μπορούμε να τα προσεγγίσουμε, όχι
+με ένα πολυώνυμο, αλλά με ένα πηλίκο - κλασματική συνάρτηση της μορφής:
+
+\[
+y=\frac{1}{\gamma x+\delta} \nonumber
+\]
+
+Έστω τα πιο κάτω δεδομένα τα οποία προήρθαν από ένα σχολικό πείραμα,
+όπου οι μαθητές υπολόγιζαν την ισχύ μιας πηγής φωτός (intensity of
+light) σε candela (cd) σε συνάρτηση με την απόσταση από την πηγή φωτός
+σε inches ("):
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+d & i\tabularnewline
+\midrule
+\endhead
+30" & 0.85 cd\tabularnewline
+35" & 0.67 cd\tabularnewline
+40" & 0.52 cd\tabularnewline
+45" & 0.42 cd\tabularnewline
+50" & 0.34 cd\tabularnewline
+55" & 0.28 cd\tabularnewline
+60" & 0.24 cd\tabularnewline
+65" & 0.21 cd\tabularnewline
+70" & 0.18 cd\tabularnewline
+75" & 0.15 cd\tabularnewline
+\bottomrule
+\end{longtable}
+
+Για να βρούμε μια τέτοια συνάρτηση, χρησιμοποιηούμε την ακόλουθη εντολή
+/ συναρτήση με το καθορισμένο syntax, όπως είδαμε και στην Εκθετική
+Προσέγγιση, είτε στην Python είτε στην \(MATLAB\):
+
+\[
+\text{Στην MATLAB: } polyfit(x,1./y,1) \\ \text{ και στην Python: } numpy.polyfit(x,1/y,1) \nonumber
+\]
+
+Ο λόγος που λειτουργεί αυτό, είναι και εδώ απλός:
+
+Έστω \(y=\frac{1}{\gamma x+\delta}\) τότε,
+
+\[
+\overbrace{\frac{1}{y}}^{Y} = \gamma x+\delta \Leftrightarrow Y=\gamma x+\delta \nonumber
+\]
+
+Άρα η εντολή θα μας δώσει το πολυώνυμο \(\gamma x+\delta\) το οποίο
+χρησιμοποιούμε για την προσέγγιση των δεδομένων μας. \textbf{Μπορούμε
+φυσικά να προσεγγίσουμε τα δεδομένα μας και με κλασματικές συναρτήσεις
+όπου ο παρανομαστής του πηλίκου αποτελεί πολυώνυμο βαθμού μεγαλύτερου
+του \(1\), απλά αλλάζοντας το arguement του βαθμού της προσέγγισης στο
+input της εντολής polyfit() στο ποθητό αριθμό.} Για παράδειγμα, για τα
+δεδομένα αυτού του πειράματος, θα δούμε ότι χρησιμοποιόντας
+\textbf{Quadratic} Reciprocal Regression με την Μέθοδο LSQ,
+επιτυγχάνουμε καλύτερα προσαρμογή και προσέγγιση των δεδομένων μας!
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{o}{\PYZpc{}}\PY{k}{config} InlineBachend.figure\PYZus{}format=\PYZsq{}svg\PYZsq{} \PYZsh{}saving the figure in vector graphics format for better quality
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{30}\PY{p}{,} \PY{l+m+mi}{80}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.85}\PY{p}{,} \PY{l+m+mf}{0.67}\PY{p}{,} \PY{l+m+mf}{0.52}\PY{p}{,} \PY{l+m+mf}{0.42}\PY{p}{,} \PY{l+m+mf}{0.34}\PY{p}{,} \PY{l+m+mf}{0.28}\PY{p}{,} \PY{l+m+mf}{0.24}\PY{p}{,} \PY{l+m+mf}{0.21}\PY{p}{,} \PY{l+m+mf}{0.18}\PY{p}{,} \PY{l+m+mf}{0.15}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+\PY{n}{n} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{prod}\PY{p}{(}\PY{n}{x}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\PY{n}{g\PYZus{}1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{y}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{g\PYZus{}2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{y}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{gamma} \PY{o}{=} \PY{n}{g\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{;} \PY{n}{delta} \PY{o}{=} \PY{n}{g\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{;} \PY{n}{a} \PY{o}{=} \PY{n}{g\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{;} \PY{n}{b} \PY{o}{=} \PY{n}{g\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{;} \PY{n}{c} \PY{o}{=} \PY{n}{g\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{;}
+\PY{n}{gfun\PYZus{}1} \PY{o}{=} \PY{k}{lambda} \PY{n}{t}\PY{p}{:} \PY{l+m+mi}{1}\PY{o}{/}\PY{p}{(}\PY{n}{gamma}\PY{o}{*}\PY{n}{t}\PY{o}{+}\PY{n}{delta}\PY{p}{)}
+\PY{n}{gfun\PYZus{}2} \PY{o}{=} \PY{k}{lambda} \PY{n}{t}\PY{p}{:} \PY{l+m+mi}{1}\PY{o}{/}\PY{p}{(}\PY{n}{a}\PY{o}{*}\PY{n}{t}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{b}\PY{o}{*}\PY{n}{t}\PY{o}{+}\PY{n}{c}\PY{p}{)}
+\PY{n}{g\PYZus{}1\PYZus{}x} \PY{o}{=} \PY{n}{gfun\PYZus{}1}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{;} \PY{n}{g\PYZus{}2\PYZus{}x} \PY{o}{=} \PY{n}{gfun\PYZus{}2}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n}{err\PYZus{}1} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{g\PYZus{}1\PYZus{}x}
+\PY{n}{err\PYZus{}2} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{g\PYZus{}2\PYZus{}x}
+\PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{g\PYZus{}1\PYZus{}x} \PY{o}{=} \PY{n}{g\PYZus{}1\PYZus{}x}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{g\PYZus{}2\PYZus{}x} \PY{o}{=} \PY{n}{g\PYZus{}2\PYZus{}x}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{err\PYZus{}1} \PY{o}{=} \PY{n}{err\PYZus{}1}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{err\PYZus{}2} \PY{o}{=} \PY{n}{err\PYZus{}2}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{n}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{25}\PY{p}{,}\PY{l+m+mi}{80}\PY{p}{,}\PY{n}{num}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g\PYZus{}1(x)=γx+δ and g\PYZus{}2(x)=ax\PYZca{}2+bx+c }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|    x    |    y    |   g\PYZus{}1(x)  |   y\PYZhy{}g\PYZus{}1(x) |   g\PYZus{}2(x)  |   y\PYZhy{}g\PYZus{}2(x) | }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{ }\PY{l+s+se}{\PYZbs{}}
+\PY{l+s+s1}{\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{table} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{g\PYZus{}1\PYZus{}x}\PY{p}{,} \PY{n}{err\PYZus{}1}\PY{p}{,} \PY{n}{g\PYZus{}2\PYZus{}x}\PY{p}{,} \PY{n}{err\PYZus{}2}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{k}{for} \PY{p}{(}\PY{n}{x\PYZus{}i}\PY{p}{,} \PY{n}{y\PYZus{}i}\PY{p}{,} \PY{n}{g\PYZus{}1\PYZus{}xi}\PY{p}{,} \PY{n}{err\PYZus{}1\PYZus{}i}\PY{p}{,} \PY{n}{g\PYZus{}2\PYZus{}xi}\PY{p}{,} \PY{n}{err\PYZus{}2\PYZus{}i}\PY{p}{)} \PY{o+ow}{in} \PY{n}{table}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|  }\PY{l+s+si}{\PYZob{}}\PY{n}{x\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{5.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |   }\PY{l+s+si}{\PYZob{}}\PY{n}{y\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{4.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  | }\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}1\PYZus{}xi}\PY{l+s+si}{:}\PY{l+s+s1}{7.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{   |  }\PY{l+s+si}{\PYZob{}}\PY{n}{err\PYZus{}1\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{8.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}2\PYZus{}xi}\PY{l+s+si}{:}\PY{l+s+s1}{7.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |  }\PY{l+s+si}{\PYZob{}}\PY{n}{err\PYZus{}2\PYZus{}i}\PY{l+s+si}{:}\PY{l+s+s1}{8.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{  |}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The total squared error for the Linear reciprocal regression is }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err\PYZus{}1}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The total squared error for the Quadratic reciprocal regression is }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err\PYZus{}2}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.6f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The coefficients of the LINEAR reciprocal regression are: γ = }\PY{l+s+si}{\PYZob{}}\PY{n}{gamma}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ and δ = }\PY{l+s+si}{\PYZob{}}\PY{n}{delta}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The coefficients of the QUADRATIC reciprocal regression are: a = }\PY{l+s+si}{\PYZob{}}\PY{n}{a}\PY{l+s+si}{:}\PY{l+s+s2}{.3f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, b = }\PY{l+s+si}{\PYZob{}}\PY{n}{b}\PY{l+s+si}{:}\PY{l+s+s2}{.3f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ and c = }\PY{l+s+si}{\PYZob{}}\PY{n}{c}\PY{l+s+si}{:}\PY{l+s+s2}{.3f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Creating the plot and editing some of its attributes for clarity. We will just copy and paste them for future use.}
+\PY{c+c1}{\PYZsh{} We also assign every modification to our plot to a dummy/garbage collecting variable; \PYZsq{}\PYZus{}\PYZsq{} to prevent unwanted outputs}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Our Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{gfun\PYZus{}1}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1.0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}1(x)=}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{gamma x+}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{delta\PYZcb{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{gfun\PYZus{}2}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purple}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1.0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}2(x)=}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{ax\PYZca{}2+bx+c\PYZcb{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Distance in inches (}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Intensity of Light Source (cd)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}gca stands for get current axes}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{25}\PY{p}{,}\PY{l+m+mi}{80}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.1}\PY{p}{,}\PY{l+m+mf}{1.4}\PY{p}{]}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xtick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ytick.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{18} 
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)} \PY{c+c1}{\PYZsh{}Sets the legend box at the best location}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{show}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+g\_1(x)=γx+δ and g\_2(x)=ax\^{}2+bx+c
+
+|    x    |    y    |   g\_1(x)  |   y-g\_1(x) |   g\_2(x)  |   y-g\_2(x) |
+ ---------------------------------------------------------------------
+|  30.00  |   0.85  |    1.27   |     -0.42  |     0.84  |      0.01  |
+|  35.00  |   0.67  |    0.72   |     -0.05  |     0.66  |      0.01  |
+|  40.00  |   0.52  |    0.51   |      0.01  |     0.52  |     -0.00  |
+|  45.00  |   0.42  |    0.39   |      0.03  |     0.42  |     -0.00  |
+|  50.00  |   0.34  |    0.32   |      0.02  |     0.34  |     -0.00  |
+|  55.00  |   0.28  |    0.27   |      0.01  |     0.29  |     -0.01  |
+|  60.00  |   0.24  |    0.23   |      0.01  |     0.24  |     -0.00  |
+|  65.00  |   0.21  |    0.20   |      0.01  |     0.20  |      0.01  |
+|  70.00  |   0.18  |    0.18   |     -0.00  |     0.18  |      0.00  |
+|  75.00  |   0.15  |    0.16   |     -0.01  |     0.15  |     -0.00  |
+The total squared error for the Linear reciprocal regression is 0.18
+
+The total squared error for the Quadratic reciprocal regression is 0.000320
+
+The coefficients of the LINEAR reciprocal regression are: γ = 0.12 and δ = -2.77
+The coefficients of the QUADRATIC reciprocal regression are: a = 0.001, b =
+-0.021 and c = 0.616
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_48_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+
+\subsection{Παράδειγμα 4: Εφαρμογή όλων των εκδοχών και παραλλαγών  που είδαμε της Μεθόδου ελαχίστων τετραγώνων σε ένα πρακτικό πρόβλημα.}
+
+    Έστω ότι κατα την μοντελοποιήση μιας δεξαμενής πετρελαίου, μας αναθέτετε
+το έργο εύρεσης μια σχέσης μεταξύ την σταθερά ισορροπίας μιας (χημικής)
+αντίδρασης και της πίεσης, υπό μια σταθερή θερμοκρασία. Τα δεδομένα στον
+πιο κάτω πίνακα, συσχετίζουν τις σταθερές ισορροπίας (\emph{K-values,
+Vapor-Liquid Equilibrium (VLE)}) με την πίεση (σε μονάδες ΚPSIA (1000
+PSIA), δηλαδή σε μονάδες S.I.; \(6.895E+6\) Pascal) και προέκυψαν απο
+μια πειραματική Pressure volume temperature (PVT) ανάλυση.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Pressure & K-value\tabularnewline
+\midrule
+\endhead
+0.635 & 7.5\tabularnewline
+1.035 & 5.58\tabularnewline
+1.435 & 4.35\tabularnewline
+1.835 & 3.55\tabularnewline
+2.235 & 2.97\tabularnewline
+2.635 & 2.53\tabularnewline
+3.035 & 2.2\tabularnewline
+3.435 & 1.93\tabularnewline
+3.835 & 1.7\tabularnewline
+4.235 & 1.46\tabularnewline
+4.635 & 1.28\tabularnewline
+5.035 & 1.11\tabularnewline
+5.435 & 1.0\tabularnewline
+\bottomrule
+\end{longtable}
+
+Αναπαριστούμε τα δεδομένα μας και τα προσεγγίζουμε / προσαρμόζουμε με
+\textbf{6} διαφορετικές συναρτήσεις, αξιοποιώντας τα subplots της
+Matplotlib (εύκολα αυτό το πρόγραμμα στην Python μετατρέπεται σε Script
+m-file στην \(MATLAB\)). Tέλος, υπολογίζουμε και συγκρίνουμε, το
+συνολικό τετραγωνικό σφάλμα από την κάθε προσαρμογή, ώστα να παρθεί ποιά
+από τις πιο κάτω αποτελεί την best-fit καμπύλη για αυτό το συγκεκριμένο
+σύνολο δεδομένων.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Γραμμική Συνάρτηση / Πολυώνυμο βαθμού 1: \(g_1(x)=mx+d\)
+\item
+  Πολυώνυμο βαθμού 2: \(g_2(x)=ax^2+bx+c\)
+\item
+  Πολυώνυμο βαθμού 12 (=13-1, n=12):
+  \(g_3(x)=a_{12}x^{12}+ \cdots +a_1x+a_0\)
+\item
+  Eκθετική συνάρτηση με βάση την σταθερά του Euler: \(g_4(x)=re^{lx}\)
+\item
+  Κλασματική συνάρτηση με γραμμική συνάρτηση στον παρονομαστή:
+  \(g_5(x)=\frac{1}{\lambda x+\delta}\)
+\item
+  Κλασματική συνάρτηση με πολυώνυμο βαθμού 2 στον παρονομαστή:
+  \(g_6(x)=\frac{1}{\alpha x^2+\beta x+\gamma}\)
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{o}{\PYZpc{}}\PY{k}{config} InlineBachend.figure\PYZus{}format=\PYZsq{}svg\PYZsq{} \PYZsh{}saving the figure in vector graphics format for better quality
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+    
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mf}{0.635}\PY{p}{,} \PY{l+m+mf}{5.5}\PY{p}{,} \PY{l+m+mf}{0.4}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{7.5}\PY{p}{,} \PY{l+m+mf}{5.58}\PY{p}{,} \PY{l+m+mf}{4.35}\PY{p}{,} \PY{l+m+mf}{3.55}\PY{p}{,} \PY{l+m+mf}{2.97}\PY{p}{,} \PY{l+m+mf}{2.53}\PY{p}{,} \PY{l+m+mf}{2.2}\PY{p}{,} \PY{l+m+mf}{1.93}\PY{p}{,} \PY{l+m+mf}{1.7}\PY{p}{,} \PY{l+m+mf}{1.46}\PY{p}{,} \PY{l+m+mf}{1.28}\PY{p}{,} \PY{l+m+mf}{1.11}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{]}\PY{p}{,} \PY{n+nb}{float}\PY{p}{)}
+\PY{n}{n} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{prod}\PY{p}{(}\PY{n}{x}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\PY{n}{g\PYZus{}1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{g\PYZus{}2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{g\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} This, as we saw at the corresponding section, will need some tweaking first}
+\PY{n}{g\PYZus{}4} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{r} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{g\PYZus{}4}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{;} \PY{n}{l} \PY{o}{=} \PY{n}{g\PYZus{}4}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+
+\PY{n}{g\PYZus{}5} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{y}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{g\PYZus{}6} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{y}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{gfun\PYZus{}exp} \PY{o}{=} \PY{k}{lambda} \PY{n}{t}\PY{p}{:} \PY{n}{r}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{l}\PY{o}{*}\PY{n}{t}\PY{p}{)}
+\PY{n}{gfun\PYZus{}rec1} \PY{o}{=} \PY{k}{lambda} \PY{n}{t}\PY{p}{:} \PY{l+m+mi}{1}\PY{o}{/}\PY{p}{(}\PY{n}{g\PYZus{}5}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{t}\PY{o}{+}\PY{n}{g\PYZus{}5}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{gfun\PYZus{}rec2} \PY{o}{=} \PY{k}{lambda} \PY{n}{t}\PY{p}{:} \PY{l+m+mi}{1}\PY{o}{/}\PY{p}{(}\PY{n}{g\PYZus{}6}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{n}{t}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{g\PYZus{}6}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{*}\PY{n}{t}\PY{o}{+}\PY{n}{g\PYZus{}6}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{err\PYZus{}1} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}1}\PY{p}{,}\PY{n}{x}\PY{p}{)}
+\PY{n}{err\PYZus{}2} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}2}\PY{p}{,}\PY{n}{x}\PY{p}{)}
+\PY{n}{err\PYZus{}3} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}3}\PY{p}{,}\PY{n}{x}\PY{p}{)}
+\PY{n}{err\PYZus{}4} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{gfun\PYZus{}exp}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n}{err\PYZus{}5} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{gfun\PYZus{}rec1}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n}{err\PYZus{}6} \PY{o}{=} \PY{n}{y}\PY{o}{\PYZhy{}}\PY{n}{gfun\PYZus{}rec2}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The total squared errors for each regression are:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Linear Approximation of LSQ: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err\PYZus{}1}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Quadratic Approximation of LSQ: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err\PYZus{}2}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Polyonomial Interpolation (Lagrange Polyonomial): }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err\PYZus{}3}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Exponential Approximation of LSQ: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err\PYZus{}4}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Linear Reciprocal Approximation of LSQ: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err\PYZus{}5}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ \PYZlt{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{} This is quite large because at approximately }\PY{l+s+se}{\PYZbs{}}
+\PY{l+s+s2}{x=0.222... we have a horizontal asymptote }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Quadratic Reciprocal Approximation of LSQ: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{err\PYZus{}6}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} We could visualise these to be honest much better with the SymPy module but that could be a bit time consuming}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The functions in the order we defined them: }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g\PYZus{}1(x)=}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x+}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g\PYZus{}2(x)=}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}2}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x+}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g\PYZus{}3(x)=}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.3f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}12}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}11+}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}10}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}9+}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}8}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}7+}\PY{l+s+se}{\PYZbs{}}
+\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{6}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}6}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{7}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}5+}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{8}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}4}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{9}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}3+}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{10}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x\PYZca{}2}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{11}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x+}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{12}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g\PYZus{}4(x)=}\PY{l+s+si}{\PYZob{}}\PY{n}{r}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{*exp(}\PY{l+s+si}{\PYZob{}}\PY{n}{l}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{x) }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g\PYZus{}5(x)=1/(}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}5}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{*x}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}5}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g\PYZus{}6(x)=1/(}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}6}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{*x\PYZca{}2+}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}6}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{*x+}\PY{l+s+si}{\PYZob{}}\PY{n}{g\PYZus{}6}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{,}\PY{n}{num}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}We change the figure size here instantly instead from the fig, Figure instance like we would do in a Python program}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{nrows}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{ncols}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{14}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)} 
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}1}\PY{p}{,}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}1(x)=mx+d\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pressure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K\PYZhy{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Polyonomial of deg 1, \PYZdl{}g\PYZus{}1(x)=mx+d\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}2}\PY{p}{,}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}2(x)=ax\PYZca{}2+bx+c\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pressure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K\PYZhy{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Polyonomial of deg 2, \PYZdl{}g\PYZus{}1(x)=ax\PYZca{}2+bx+c\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}3}\PY{p}{,}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}c}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}3(x)=a\PYZus{}}\PY{l+s+si}{\PYZob{}12\PYZcb{}}\PY{l+s+s1}{x\PYZca{}}\PY{l+s+si}{\PYZob{}12\PYZcb{}}\PY{l+s+s1}{+ }\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{cdots +a\PYZus{}1x+a\PYZus{}0\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pressure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K\PYZhy{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{,} \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{expand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{}Because this is a really big legend box, we expand it horizontally}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Polyonomial of deg 12, \PYZdl{}g\PYZus{}3(x)=a\PYZus{}}\PY{l+s+si}{\PYZob{}12\PYZcb{}}\PY{l+s+s2}{x\PYZca{}}\PY{l+s+si}{\PYZob{}12\PYZcb{}}\PY{l+s+s2}{+ }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cdots +a\PYZus{}1x+a\PYZus{}0\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{gfun\PYZus{}exp}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}4(x)=re\PYZca{}}\PY{l+s+si}{\PYZob{}lx\PYZcb{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pressure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K\PYZhy{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Exponential function, \PYZdl{}g\PYZus{}4(x)=re\PYZca{}}\PY{l+s+si}{\PYZob{}lx\PYZcb{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{gfun\PYZus{}rec1}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}m}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}5(x)=}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{lambda x+}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{delta\PYZcb{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pressure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K\PYZhy{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Linear Reciprocal Regression, \PYZdl{}g\PYZus{}5(x)=}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{lambda x+}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta\PYZcb{}\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}2}\PY{p}{,}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}6(x)=}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{alpha x\PYZca{}2+}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{beta x+}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{gamma\PYZcb{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pressure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K\PYZhy{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Quadratic Reciprocal Regression, \PYZdl{}g\PYZus{}6(x)=}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alpha x\PYZca{}2+}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{beta x+}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{gamma\PYZcb{}\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{fig2}\PY{p}{,} \PY{n}{axis} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}1}\PY{p}{,}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}1(x)=mx+d\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}2}\PY{p}{,}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}2(x)=ax\PYZca{}2+bx+c\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}3}\PY{p}{,}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}c}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}3(x)=a\PYZus{}}\PY{l+s+si}{\PYZob{}12\PYZcb{}}\PY{l+s+s1}{x\PYZca{}}\PY{l+s+si}{\PYZob{}12\PYZcb{}}\PY{l+s+s1}{+ }\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{cdots +a\PYZus{}1x+a\PYZus{}0\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{gfun\PYZus{}exp}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}4(x)=re\PYZca{}}\PY{l+s+si}{\PYZob{}lx\PYZcb{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{gfun\PYZus{}rec1}\PY{p}{(}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}m}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}5(x)=}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{lambda x+}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{delta\PYZcb{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{t}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{g\PYZus{}2}\PY{p}{,}\PY{n}{t}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}g\PYZus{}6(x)=}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{alpha x\PYZca{}2+}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{beta x+}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{gamma\PYZcb{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pressure}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K\PYZhy{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{best}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Comparing all the data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{]}\PY{p}{)}
+\PY{n}{axis}\PY{o}{.}\PY{n}{annotate}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Vertical asymptote of \PYZdl{}g\PYZus{}5(x)=}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{frac}\PY{l+s+si}{\PYZob{}1\PYZcb{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{lambda x+}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta\PYZcb{}\PYZdl{} at appr. \PYZdl{}x=0.22}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{dots\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{xy}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{0.22}\PY{p}{,}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,}
+              \PY{n}{xytext}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{,}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,} \PY{n}{xycoords}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{arrowprops}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{facecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{shrink}\PY{o}{=}\PY{l+m+mf}{0.05}\PY{p}{)}\PY{p}{,}
+              \PY{n}{horizontalalignment}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{}Plotting an annotation for the asymptote of g\PYZus{}5(x)}
+    
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The total squared errors for each regression are:
+
+Linear Approximation of LSQ: 7.4816
+
+Quadratic Approximation of LSQ: 1.2917
+
+Polyonomial Interpolation (Lagrange Polyonomial): 0.0000
+
+Exponential Approximation of LSQ: 2.1353
+
+Linear Reciprocal Approximation of LSQ: 35.5787 <---- This is quite large
+because at approximately x=0.222{\ldots} we have a horizontal asymptote
+
+Quadratic Reciprocal Approximation of LSQ: 0.5365
+
+The functions in the order we defined them:
+
+g\_1(x)=-1.14x+6.32
+
+g\_2(x)=0.35x\^{}2-3.25x+8.74
+
+g\_3(x)=0.001x\^{}12-0.04x\^{}11+0.69x\^{}10-6.54x\^{}9+40.54x\^{}8-173.35x\^{}7+522.95x\^{}6-1118.31x
+\^{}5+1677.27x\^{}4-1715.58x\^{}3+1134.53x\^{}2-439.65x+83.19
+
+g\_4(x)=7.96*exp(-0.40x)
+
+g\_5(x)=1/(0.18*x-0.04)
+
+g\_6(x)=1/(0.02*x\^{}2+0.05*x+0.10)
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_52_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_52_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}    
+    
+\subsection{Μικρή συνοπτική ανασκόπιση της Συνεχούς Εκδοχής της Μεθόδου
+Ελαχίστων Τετραγώνων}
+
+Ξεκινήσαμε το Notebook μας, και \emph{σχεδον} το κλείνουμε, με την
+μελέτη του προβλήματος προσαρμογής κάποιου συνόλου σημείων
+\(\{(x_0,y_0),(x_1,y_1),\dots,(x_{n},y_{n})\}\) από ένα πολυώνυμο (ή
+εκθετική ή κλασματική συνάρτηση) βαθμού \(m \leq n\). Mε άλλα λόγια,
+προσεγγίζαμε μια συνάρτηση \(f \in \mathcal{C}[a,b]\) στα
+\emph{διακριτά} σημεία \(x_0,x_1,\dots,x_m\) μελετώντας την θεωρια και
+διαφορά παραδείγματα της \textbf{Διακριτής} εκδοχής ελαχίστων
+τετραγώνων. Όπως είχαμε αναφέρει στην αρχή του Notebook, (βλ.
+\eqref{eq:4} και \eqref{eq:5}), θα μπορούσαμε για τον ορισμό της
+συνάρτησης σφάλματος να χρησιμοποιούσαμε οποιοδήποτε άλλο μέγεθος
+θέλουμε για προσδιορισμό του σφάλματος της προσέγγισης από τα δεδομένα.
+Στην πραγματικότητα, και η επιλογή της προσέγγισης μιας συνάρτησης σε
+μόνο \(n+1\) σημεία είναι κάπως αυθαίρετη. Εάν ήμασταν φιλόδοξοι,
+(αρκετά!) θα απαιτούσαμε από το πολυώνυμο της Μεθόδου των Ελαχίστων
+Τετραγώνων να προσαρμοζει / προσεγγίζει, σε υψηλο βαθμό, την συνάρτηση
+\(f\) επί όλου του διαστήματος \([a,b]\). Πόσα σημεία θα διαλέγαμε τότε?
+(Δηλαδή τι τιμή θα έπαιρνε τότε το \(n\)? Προφανώς θα ήπρεπε να είναι
+αρκετά μεγάλη\ldots) Με ποιό τρόπο θα διαλέγαμε τα σημεία \(x_i\)?
+Eύλογο θα ήτανε να κατανέμαμε τα σημεία \(x_i \in [a,b]\) ομοιόμορφα επί
+του \([a,b]\) Δηλαδή παίρνουμε την \textbf{κανονική διαμέριση} του
+\([a,b]\) μεγέθους \(n+1\);
+
+\[
+\text{Oρίζουμε: } h:=\frac{b-a}{n}  \text{ και έστω } x_k=a+kh, \forall k=0,1,\dots,n \nonumber
+\]
+
+Πίσω τώρα στην συνάρτηση σφάλματος, \eqref{eq:4}. Eαν πολλαπλασιάσουμε
+την συνάρτηση σφάλματος \(Α(a_0,a_1,\dots,a_m)\), με την σταθερά \(h\),
+η οποία είναι η απόσταση μεταξύ 2 διαδοχικών σημείων αυτής της κανονικής
+διαμέρισης του \([a,b]\) και πάρουμε το όριο της καθώς \(n \to \infty\),
+δηλαδή προσπαθούμε να προσεγγίσουμε την συνάρτηση \(f\) με το πολυώνυμο
+\(g(x)\) (βαθμού \(m\)) σε όλο και περισσότερα σημεία, τότε η συνάρτηση
+\(Α(a_0,a_1,\dots,a_m)\) παίρνει την μορφή ενός αθροίσματος Riemann.
+Δηλαδή το όριο της συνάρτησης \(A\), καθώς \(n \to \infty\)
+\emph{προσεγγίζει} ένα ορισμένο ολοκλήρωμα:
+
+\[
+\lim_{n \to \infty} hΑ(a_0,a_1,\dots,a_m) = \lim_{n \to \infty} h \sum_{i=0}^n(g(x_i)-f(x_i))^2 = \int_a^b (g(x)-f(x))^2dx \nonumber
+\]
+
+Άρα σε αυτή την περίπτωση, όπου προσπαθούμε να μειώσουμε το σφάλμα
+μεταξύ της συνάρτησης και της προσέγγισης, επί άπειρα ομοιόμορφα
+κατανεμημενα σημεία, προσπαθούμε στην πραγματικότητα να
+ελαχιστοποιήσουμε ένα ολοκλήρωμα, αντί ένα άθροισμα πλέον. Θα δούμε ότι
+το πιο πάνω πρόβλημα ανάγεται σε πρόβλημα επίλυσης ενός γραμμικού
+συστήματος διάστασης, \((m+1) \times (m+1)\) αξιοποιώντας την θεωρία
+συναρτησιακών χώρων με εσωτερικό γινόμενο.
+
+Είναι γνωστό ότι ο χώρος \(\mathcal{C}[a,b]\), όπου είναι το σύνολο όλων
+των πραγματικών συναρτήσεων επί του \([a,b]\) όπου είναι
+\emph{συνεχείς}, είναι \textbf{γραμμικός (διανυσματικός)}. Αυτό γιατί
+κάθε γραμμικός συνδυασμός, συνεχών συναρτήσεων επί του \([a,b]\), είναι
+με την σειρά του συνεχής συνάρτηση επί του \([a,b]\). Ορίζουμε τώρα το
+\textbf{εσωτερικό γινόμενο} 2 \textbf{πραγματικών} (για μιγαδικές
+συναρτήσεις, ορίζουμε το \emph{γενικευμένο εσωτερικό γινόμενο})
+συναρτήσεων, \(f,g \in \mathcal{C}[a,b]\):
+
+\[
+\langle f,g \rangle = \int_a^b f(x)g(x)dx \tag{6} \label{eq:12}
+\]
+
+Όπως γνωρίζουμε από την Γραμμική Άλγεβρα, ένας γραμμικός (διανυσματικός)
+χώρος \(V\), ονομάζεται \emph{χώρος με εσωτερικό γινόμενο} εάν σε κάθε
+ζεύγος \((x,y) \in V \times V\) μπορούμε να αντιστοιχίσουμε ακριβώς ένα
+πραγματικό αριθμό \(\langle x,y \rangle\) τέτοιος ώστε,
+\(\forall x,y,z \in V \text{ και } \lambda \in \mathbb{R}\) να ισχύει:
+
+\begin{itemize}
+\item
+  \(\langle \lambda x, y \rangle = \lambda \langle x,y \rangle\)
+\item
+  \(\langle x+y,z \rangle = \langle x,z \rangle + \langle y,z \rangle\)
+\item
+  \(\langle x,y \rangle = \langle y,x \rangle\)
+\item
+  \(\langle x,x \rangle \geq 0 \text{ και } \langle x,x \rangle = 0 \Leftrightarrow x = 0_V\)
+\end{itemize}
+
+Άρα θα αποδείξουμε τώρα ότι ικανοιποιούνται οι πιο πάνω 4 ιδιότητες στον
+γραμμικό χώρο \(\mathcal{C}[a,b]\)
+
+\begin{itemize}
+\item
+  \(\langle \lambda f,g \rangle \overset{\text{def.}}{=} \int_a^b \lambda f(x)g(x)dx = \lambda \int_a^b f(x)g(x)dx = \lambda \langle f,g \rangle\)
+\item
+  \(\langle f+g,h \rangle \overset{\text{def.}}{=} \int_a^b [f(x)+g(x)]h(x)dx = \int_a^b f(x)h(x)dx +0 \int_a^b g(x)h(x)dx \overset{\text{def.}}{=} \langle f,h \rangle + \langle g,h \rangle\)
+\item
+  \(\langle f,g \rangle = \langle g,f \rangle \text{, προφανώς}\)
+\item
+  \(\langle f,f \rangle = \int_a^b f^2(x)dx \geq 0 \because f^2(x) \geq 0 \text{. Επίσης, } \langle f,f \rangle = \int_a^b f^2(x)dx = 0 \Leftrightarrow f(x) \equiv 0 \\ \text{ λόγω του ορισμού ολοκληρώματος (απόδειξη με άνω αθροίσματα Riemann και ορισμό ολοκληρωσιμότητας κατά Riemann)}\)
+\end{itemize}
+
+Άρα ο διανυσματικός χώρος \(\mathcal{C}[a,b]\) είναι χώρος με εσωτερικό
+γινόμενο. Επίσης ορίζουμε την \(L^2\) ή Ευκλείδια νόρμα και στο
+\(\mathcal{C}[a,b]\) ως το μέγεθος:
+
+\[
+||f||_{L^2} := \langle f,f \rangle^{1/2} = \begin{pmatrix} \int_a^b f^2(x)dx \end{pmatrix}^{1/2} \tag{7} \label{eq:13}
+\]
+
+
+\subsection{Eλαχιστοποίηση Ελάχιστων Τετραγώνων με χρήση Απειροστικού
+Λογισμού}
+
+Έστω μια συνάρτηση, \(f \in \mathcal{C}[a,b]\), η βασική \(L^2\)
+προσέγγιση της, βασίζεται στην εύρεση ενός πολυωνύμου
+\(g(x) \in \mathbb{R}_m[x]\) όπου ελαχιστοποιεί το σφάλμα \(f-g\) στην
+Ευκλείδια νόρμα επί του \(\mathcal{C}[a,b]\). Δηλαδή θέλουμε να βρούμε
+του συντελεστές του πολυωνύμου \(g(x)\) όπου έχουμε:
+
+\[
+\min_{g(x) \in \mathbb{R}_m[x]} ||f-g||_{L^2} \equiv \min_{a_0,a_1,\dots,a_m \in \mathbb{R}} ||f-(a_mx^m+\cdots+a_1x+a_0)||_{L^2} \nonumber
+\]
+
+Έστω το πολυώνυμο που επιτυγχάνει αυτό το ελάχιστο; \(\gamma(x)\). Θα
+δούμε πρώτα την περίπτωση \(m=1\) και έπειτα την γενική περίπτωση. Καθώς
+η συνάρτηση \(y=x^2\) είναι \textbf{αύξουσα} στο \(\mathbb{R}^+\), τότε
+ισοδύναμα θα ελαχιστοποιήσουμε την συνάρτηση (2 μεταβλητών;
+\(a_0,a_1\)), \(||f-g||_{L^2}^2\) καθώς:
+
+\[
+\underset{g(x) \in \mathbb{R}_m[x]}{arg \ min} \{||f-g||_{L^2}\} = \underset{g(x) \in \mathbb{R}_m[x]}{arg \ min} \{||f-g||_{L^2}^2\} \nonumber
+\]
+
+Άρα, \(\forall g(x) \in \mathbb{R}_m[x]\), η συνάρτηση σφάλματος
+ορίζεται ώς:
+
+\begin{align*}
+A(a_0,a_1)&:=||f(x)-a_0-a_1x||_{L^2}^2 = \int_a^b (f(x)-a_0-a_1x)^2dx, \ \ \ \ \because \eqref{eq:13} \\
+          &= \int_a^b (f^2(x)-2f(x)(a_0+a_1x)+(a_0^2+2a_0a_1x+a_1^2x^2))dx \\
+          &= \int_a^b f^2(x)dx-2a_0\int_a^b f(x)dx-2a_1 \int_a^b xf(x)dx+a_0^2(b-a)+a_0a_1(b^2-a^2)+\frac{1}{3}a_1^2(b^3-a^3)
+\end{align*}
+
+Για να βρούμε το πολυώνυμο \(\gamma (x)\), βρίσκουμε, όπως και στην
+διακριτή Μέθοδο Ελαχίστων Τετραγώνων, τις τιμές των \(a_0,a_1\) στις οποίες
+μηδενίζονται οι μερικές παραγώγοι
+\(\frac{\partial A}{\partial a_0} \text{ και } \frac{\partial A}{\partial a_1}\).
+Πρώτα υπολογίζουμε αυτές τις παραγώγους:
+
+\[
+\frac{\partial A}{\partial a_0} = -2\int_a^b f(x)dx+2a_0(b-a)+a_1(b^2-a^2) \\
+\frac{\partial A}{\partial a_1} = -2\int_a^b xf(x)dx+a_0(b^2-a^2)+\frac{2}{3} a_1(b^3-a^3) \nonumber
+\]
+
+Θέτοντας τις πιο πάνω ίσες με το 0, προκύπτει το ακόλουθο ισοδύναμο
+\(2 \times 2\) γραμμικό σύστημα:
+
+\[
+\mathbf{M}\vec{a}=\vec{d} \Leftrightarrow \tag{8} \label{eq:14}
+\begin{pmatrix}
+2(b-a) & b^2-a^2 \\
+b^2-a^2 & \frac{2}{3}(b^3-a^3)
+\end{pmatrix}
+\begin{pmatrix}
+a_0 \\
+a_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+2\int_a^b f(x)dx \\
+2\int_a^b xf(x)dx
+\end{pmatrix}
+\]
+
+Προφανώς το πιο πάνω σύστημα, \eqref{eq:14} έχει μοναδική λύση \textbf{αν.ν}
+\(b \neq a\). Τότε εάν το πιο πάνω σύστημα έχει την λύση,
+\((\alpha_0,\alpha_1)\) τότε το ζητούμενο πολυώνυμο είναι το
+\(\gamma (x)=\alpha_1 x+\alpha_0\), εκφραζόμενο ώς προς την κανονική
+βάση του πολυωνυμικού χώρου, \(\mathbb{R}_m[x]\), όπου αποτελεί την
+\textbf{Συνεχής Γραμμική Προσέγγιση Ελαχίστων Τετραγώνων} της \(f\) επί
+του \([a,b]\).
+
+\subsubsection{Παράδειγμα εφαρμογής: Εφαρμόζουμε την
+μεθοδολογία μας στην \(f(x)=\sin{x}\) επί του διαστήματος
+\([0,\pi/2]\)}
+
+Έχουμε ότι \(\int_0^{\pi/2} \sin{x}dx = [-\cos{x}]_{x=0}^{x=\pi/2} = 1\)
+και
+\(\int_0^{\pi/2} x\sin{x}dx = [-x\cos{x}]_{x=0}^{x=\pi/2} + \int_0^{\pi/2} \cos{x}dx = 0 + [\sin{x}]_{x=0}^{x=\pi/2} = 1\).
+Άρα το σύστημα \eqref{eq:14} σε αυτή την περίπτωση είναι το: \[
+\begin{pmatrix}
+\pi & \frac{\pi^2}{4} \\
+\frac{\pi^2}{4} & \frac{\pi^3}{12}
+\end{pmatrix}
+\begin{pmatrix}
+a_0 \\
+a_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+2 \\
+2
+\end{pmatrix} \nonumber
+\]
+
+Το οποίο επιλύωντας το στην \(MATLAB\) με την εντολή
+\textbf{linsolve()}, προκύπτουν οι συντελεστές του προσεγγιστικού
+πολυωνύμου όπως φαίνεται και πιο κάτω:
+
+ \includegraphics[width=16cm, height=8cm]{cont_method_lsq_3.jpg}
+\includegraphics[width=16cm, height=13cm]{cont_method_lsq_2.jpg}
+
+    Από το γράφημα βλέπουμε ότι η προσέγγιση μας είναι ικανοποιητική, όμως
+το σφάλμα δεν είναι και τόσο μικρο! Για την ακρίβεια, με ένα γρήγορο
+υπολογισμό απο την \(MATLAB\) προκύπτει ότι:
+\(||f-\gamma (x)||_{L^2}= 0.3544\)
+
+\begin{tcolorbox}
+Ο πιο πάνω υπολογισμός έγινε στην \(MATLAB\) με το syntax:
+
+>> fun = @(x) (sin(x)-a(2)*x-a(1)).\^{}2;
+
+>> sqrt(integral(fun,0,pi/2))
+
+ans =
+
+\begin{verbatim}
+0.3544 
+\end{verbatim}
+\end{tcolorbox}
+
+Όπως είδαμε και στην Διακριτή εκδοχή της Μεθόδου ελαχίστων τετραγώνων,
+αυξάνοντας τον βαθμό του προσεγγιστικού πολυωνύμου; \(m\), μειώνεται το
+σφάλμα, \(||f-\gamma (x)||_{L^2}\). Γενικά για να βρούμε το
+\(L^2\)-optimal βαθμού \(m\) πολυωνύμο της συνεχής εκδοχής της Μεθόδου
+ελαχίστων τετραγώνων, θα πρέπει να λύσουμε ένα \((m+1) \times (m+1)\)
+γραμμικό σύστημα.
+
+\subsection{Γενίκευση της Συνεχής Μεθόδου Ελάχιστων
+Τετραγώνων για
+\(m \in \mathbb{N}\)}
+
+Στην γενίκευση της Συνεχόυς μεθόδου Ελ.Τ., θα επιχειρήσουμε κάτι
+διαφορετικό! Στο προηγούμενο παράδειγμα όπου \(m=1\) εκφράσαμε το
+προσεγγίστικό πολυώνυμο που ελαχιστοποιεί την ποσότητα
+\(||f-g(x)||_{L^2}\), \(\gamma (x)\) ως προς την \textbf{κανονική βάση}
+του \(\mathbb{R}_1[x]\), \(\{1,x\}\). Τώρα θα κατασκευάσουμε μια μέθοδο
+εύρεσης του προσεγγίστικου πολυωνύμου \(g(x) \in \mathbb{R}_m[x]\),
+εκφράζοντας το ως προς μια αυθαίρετη βάση του πολυωνυμικού χώρου,
+\(\mathbb{R}_m[x]\), καθώς έτσι θα προκύψουν κάποιες σημαντικές
+αριθμητικές ιδιότητες προς όφελος μας, σε αυτό τον διαφορετικό
+προσεγγιστικό αλγόριθμο.
+
+Έστω το σύνολο \(\{q_0(x),q_1(x),\dots,q_m(x)\}\) αποτελεί μια βάση του
+\(\mathbb{R}_m[x]\). Tότε, εξ ορισμού, προκύπτει ότι,
+\(\forall g(x) \in \mathbb{R}_m[x]\):
+
+\[
+g(x)=\sum_{k=0}^m c_kq_k(x) \ , \ \text{ για κάποια } c_k \in \mathbb{R} \nonumber
+\]
+
+H συνάρτηση σφάλματος παίρνει την μορφή:
+
+\begin{align*}
+A(c_0,\dots,c_m)&:=||f(x)-g(x)||^2_{L^2} = \int_a^b (f(x) -\sum_{k=0}^m c_kq_k(x))^2dx \\
+                &= \langle f(x),f(x) \rangle -2\sum_{k=0}^m c_k\langle f(x),q_k(x) \rangle+\sum_{k=0}^m\sum_{l=0}^m c_kc_l\langle q_k(x),q_l(x) \rangle && \because \eqref{eq:12} \text{ and } \eqref{eq:13}
+\end{align*}
+
+Όπως και πριν υπολογίζουμε και θέτουμε τις μερικές παραγώγους,
+\(\frac{\partial A}{\partial c_0},\dots,\frac{\partial A}{\partial c_m}\)
+ίσες με 0:
+
+\begin{gather*}
+\frac{\partial A}{\partial c_k}=-2\langle f(x),q_k(x) \rangle+\sum_{l=0}^m 2c_k\langle q_l(x),q_k(x) \rangle, \ \forall k=0,\dots,m \\ \xrightarrow[\text{gives us the m+1 equations}]{setting \ \frac{\partial A}{\partial c_k}=0} 
+\langle f(x),q_k(x) \rangle = \sum_{l=0}^m c_k\langle q_l(x),q_k(x) \rangle, \ \forall k=0,\dots,m 
+\end{gather*}
+
+Aυτό είναι σε συμπαγές μορφή το γραμμικό σύστημα:
+
+\[
+\begin{pmatrix}
+\langle q_0(x),q_0(x) \rangle & \langle q_0(x),q_1(x) \rangle & \cdots & \langle q_0(x),q_m(x) \rangle \\
+\langle q_1(x),q_0(x) \rangle & \langle q_1(x),q_1(x) \rangle & \cdots & \langle q_1(x),q_m(x) \rangle \\
+\vdots & \vdots & \ddots & \vdots \\
+\langle q_m(x),q_0(x) \rangle & \langle q_m(x),q_1(x) \rangle & \cdots & \langle q_m(x),q_m(x) \rangle
+\end{pmatrix}
+\begin{pmatrix}
+c_0 \\
+c_1 \\
+\vdots \\
+c_m
+\end{pmatrix}
+= 
+\begin{pmatrix}
+\langle f(x),q_0(x) \rangle \\
+\langle f(x),q_1(x) \rangle \\
+\vdots \\
+\langle f(x),q_m(x) \rangle
+\end{pmatrix} \nonumber
+\]
+
+Το πιο πάνω συνήθως το συμβολίζουμε για οικονομία,
+\(\mathbf{H} \vec{c} = \vec{b}\) του οποίου η επίλυση του επιφέρει του
+συντελεστές του πολυωνύμου,
+\(\gamma (x)=c_mq_m(x)+\cdots+c_1q_1(x)+a_0q_0(x)\) \textbf{ΕΚΦΡΑΖΌΜΕΝΟ
+ΣΤΗΝ ΑΥΘΑΊΡΕΤΗ ΒΆΣΗ ΤΟΥ \(\mathbb{R}_m[x]\),
+\(\{q_0(x),q_1(x),\dots,q_m(x)\}\)} το οποίο ελαχιστοποιεί την
+\(L^2\)-νόρμα, \(||f-g(x)||_{L^2}\), δηλαδή επιτυγχάνει το
+\(\min_{g(x) \in \mathbb{R}_m[x]} ||f-g||_{L^2}\)
+
+Εύλογο ερώτημα είναι τώρα γιατί χρησιμοποιήσαμε, μια αυθαίρετη βάση του
+\(\mathbb{R}_m[x]\), αντί την κανονική βάση, \(\{1,x,x^2,\dotsm,x^m\}\)?
+Aς εφαρμόσουμε την γενικευμένη μας μέθοδο στο διάστημα \([0,1]\) με την
+κανονική βάση; \(q_k(x)=x^k\). Τότε:
+
+\[
+\langle q_l(x),q_k(x) \rangle = \langle x^l,x^k \rangle = \int_0^1 x^{k+l}dx = \frac{1}{k+l+1} \nonumber
+\]
+
+Με άλλα λόγια:
+
+\[
+\mathbf{H}:=(h_{kl})_{k,l=0}^m=\frac{1}{k+l+1} \equiv \text{ Τετραγωνικός Πίνακας Hilbert τάξης (m+1).} \nonumber
+\]
+
+Eίναι γνωστοί οι πίνακες Hilbert για την κακή τους στάθμη κατάστασης, με
+αποτέλεσμα να είναι ειδικά δύσκολο να βρούμε ακριβές λύσεις στα
+συστήματα μας όπου έχουν ως πίνακα συντελεστών αυτούς, ειδικά όταν ο
+αριθμός \(m\) είναι μεγάλος (μονο για \(m=5\) ,
+\(\kappa(\mathbf{H})=1.495 \times 10^7\) !!). \textbf{Αυτό επιβεβαιώνει
+το γεγονός ότι, η επιλογή της κανονικής βάσης του \(\mathbb{R}_m[x]\),
+επί το \([0,1]\) είναι κακή ιδέα...}
+
+\(\\\)
+
+\begin{center}\rule{0.2\linewidth}{0.5pt}{\large ΤΕΛΟΣ NOTEBOOK}\rule{0.2\linewidth}{0.5pt}\end{center}   
+
+\bibliographystyle{plain}
+\bibliography{citations}
+\nocite{*}
+\end{document}
+
